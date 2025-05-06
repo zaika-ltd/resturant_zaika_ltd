@@ -1,0 +1,2 @@
+C:/Users/dell/Downloads/New folder/codecanyon-auvmXZy0-stackfood-multi-restaurant-food-ordering-restaurant-app-v10/Restaurant app/android/app/.cxx/Debug/a6j1k1t2/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/dell/Downloads/New folder/codecanyon-auvmXZy0-stackfood-multi-restaurant-food-ordering-restaurant-app-v10/Restaurant app/android/app/.cxx/Debug/a6j1k1t2/armeabi-v7a/CMakeFiles/rebuild_cache.dir
