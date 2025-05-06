@@ -703,7 +703,7 @@
   "disbursement_method_setup": "Disbursement Method Setup",
   "set_default_withdraw_method": "Set Default Payment Method",
   "no_method_found": "No Method Found",
-  "please_upload_lower_size_file": "Please upload lower size file",
+  "please_upload_lower_size_file": "Please upload lower size file, max size 5MB",
   "can_not_be_empty": "can not be empty",
   "please_add": "Please add",
   "not_set_yet": "Not set yet",

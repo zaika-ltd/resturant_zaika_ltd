@@ -124,7 +124,7 @@ class AuthService implements AuthServiceInterface {
     XFile? pickImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if(pickImage != null) {
       pickImage.length().then((value) {
-        if (value > 2000000) {
+        if (value > 5000000) {
           showCustomSnackBar('please_upload_lower_size_file'.tr);
         } else {
           return pickImage;
