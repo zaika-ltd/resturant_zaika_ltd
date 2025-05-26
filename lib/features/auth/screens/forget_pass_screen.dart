@@ -1,3 +1,4 @@
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_app_bar_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_asset_image_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_button_widget.dart';
@@ -73,6 +74,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                   inputAction: TextInputAction.done,
                   focusNode: _emailFocus,
                   hintText: 'enter_email'.tr,
+                  errorText: ApiChecker.errors['email'],
                   labelText: 'email'.tr,
                   prefixIcon: Icons.email,
                   onChanged: (String text) => setState(() {}),

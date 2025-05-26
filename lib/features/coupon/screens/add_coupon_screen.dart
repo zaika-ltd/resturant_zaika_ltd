@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_app_bar_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_button_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_snackbar_widget.dart';
@@ -158,6 +159,7 @@ class _AddCouponScreenState extends State<AddCouponScreen> with TickerProviderSt
                   CustomTextFieldWidget(
                     hintText: 'title'.tr,
                     labelText: 'title'.tr,
+                    errorText: ApiChecker.errors['title'],
                     prefixImage: Images.couponPercentIcon,
                     controller: _titleController[_tabController!.index],
                     focusNode: _titleNode[_tabController!.index],
@@ -194,6 +196,7 @@ class _AddCouponScreenState extends State<AddCouponScreen> with TickerProviderSt
                   CustomTextFieldWidget(
                     hintText: 'coupon_code'.tr,
                     labelText: 'coupon_code'.tr,
+                    errorText: ApiChecker.errors['code'],
                     controller: _codeController,
                     focusNode: _codeNode,
                     nextFocus: _limitNode,
@@ -203,6 +206,7 @@ class _AddCouponScreenState extends State<AddCouponScreen> with TickerProviderSt
                   CustomTextFieldWidget(
                     hintText: 'limit_for_same_user'.tr,
                     labelText: 'limit_for_same_user'.tr,
+                    errorText: ApiChecker.errors['limit'],
                     controller: _limitController,
                     focusNode: _limitNode,
                     nextFocus: _minNode,
@@ -213,6 +217,7 @@ class _AddCouponScreenState extends State<AddCouponScreen> with TickerProviderSt
                   CustomTextFieldWidget(
                     hintText: 'min_purchase'.tr,
                     labelText: 'min_purchase'.tr,
+                    errorText: ApiChecker.errors['min_purchase'],
                     controller: _minPurchaseController,
                     isAmount: true,
                     focusNode: _minNode,
@@ -252,6 +257,7 @@ class _AddCouponScreenState extends State<AddCouponScreen> with TickerProviderSt
                     Expanded(child: CustomTextFieldWidget(
                       hintText: 'discount'.tr,
                       labelText: 'discount'.tr,
+                      errorText: ApiChecker.errors['discount'],
                       controller: _discountController,
                       isAmount: true,
                       focusNode: _discountNode,
@@ -265,6 +271,7 @@ class _AddCouponScreenState extends State<AddCouponScreen> with TickerProviderSt
                     controller: _startDateController,
                     hintText: 'start_date'.tr,
                     labelText: 'start_date'.tr,
+                    errorText: ApiChecker.errors['start_date'],
                     readOnly: true,
                     suffixIcon: Icons.access_time_filled,
                     suffixIconColor: Theme.of(context).primaryColor,
@@ -291,6 +298,7 @@ class _AddCouponScreenState extends State<AddCouponScreen> with TickerProviderSt
                     controller: _expireDateController,
                     hintText: 'end_date'.tr,
                     labelText: 'end_date'.tr,
+                    errorText: ApiChecker.errors['expire_date'],
                     readOnly: true,
                     suffixIcon: Icons.access_time_filled,
                     suffixIconColor: Theme.of(context).primaryColor,

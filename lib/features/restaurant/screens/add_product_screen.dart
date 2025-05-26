@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/models/config_model.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_app_bar_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_button_widget.dart';
@@ -70,6 +71,7 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
   @override
   void initState() {
     super.initState();
+    ApiChecker.errors.clear();
 
     Get.find<RestaurantController>().initNutritionAndAllergicIngredientsData(widget.product);
 
@@ -232,6 +234,7 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                       CustomTextFieldWidget(
                         hintText: 'food_name'.tr,
                         labelText: 'food_name'.tr,
+                        errorText: ApiChecker.errors['food_name'],
                         controller: _nameControllerList[_tabController!.index],
                         capitalization: TextCapitalization.words,
                         focusNode: _nameFocusList[_tabController!.index],
@@ -243,6 +246,7 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                       CustomTextFieldWidget(
                         hintText: 'description'.tr,
                         labelText: 'description'.tr,
+                        errorText: ApiChecker.errors['description'],
                         controller: _descriptionControllerList[_tabController!.index],
                         focusNode: _descriptionFocusList[_tabController!.index],
                         capitalization: TextCapitalization.sentences,
@@ -312,32 +316,32 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                       ),
                       const SizedBox(height: Dimensions.paddingSizeOverExtraLarge),
 
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                          border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.5), width: 1),
-                        ),
-                        child: DropdownButton<int>(
-                          icon: Icon(Icons.keyboard_arrow_down, color: Theme.of(context).disabledColor),
-                          value: categoryController.subCategoryIndex,
-                          items: categoryController.subCategoryIds.map((int? value) {
-                            return DropdownMenuItem<int>(
-                              value: categoryController.subCategoryIds.indexOf(value),
-                              child: Text(
-                                value != 0 ? categoryController.subCategoryList![(categoryController.subCategoryIds.indexOf(value)-1)].name! : 'sub_category'.tr,
-                                style: robotoRegular.copyWith(color: value != 0 ? Theme.of(context).textTheme.bodyLarge!.color : Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeDefault),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (int? value) {
-                            categoryController.setSubCategoryIndex(value, true);
-                          },
-                          isExpanded: true,
-                          underline: const SizedBox(),
-                        ),
-                      ),
-                      const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                      //     border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.5), width: 1),
+                      //   ),
+                      //   child: DropdownButton<int>(
+                      //     icon: Icon(Icons.keyboard_arrow_down, color: Theme.of(context).disabledColor),
+                      //     value: categoryController.subCategoryIndex,
+                      //     items: categoryController.subCategoryIds.map((int? value) {
+                      //       return DropdownMenuItem<int>(
+                      //         value: categoryController.subCategoryIds.indexOf(value),
+                      //         child: Text(
+                      //           value != 0 ? categoryController.subCategoryList![(categoryController.subCategoryIds.indexOf(value)-1)].name! : 'sub_category'.tr,
+                      //           style: robotoRegular.copyWith(color: value != 0 ? Theme.of(context).textTheme.bodyLarge!.color : Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeDefault),
+                      //         ),
+                      //       );
+                      //     }).toList(),
+                      //     onChanged: (int? value) {
+                      //       categoryController.setSubCategoryIndex(value, true);
+                      //     },
+                      //     isExpanded: true,
+                      //     underline: const SizedBox(),
+                      //   ),
+                      // ),
+                      // const SizedBox(height: Dimensions.paddingSizeExtraLarge),
                       
                       Column(children: [
                         Row(children: [
@@ -485,6 +489,14 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                             },
                           ),
                         ) : const SizedBox(),
+                        if (ApiChecker.errors['nutritions'] != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text(
+                              ApiChecker.errors['nutritions']!,
+                              style: TextStyle(color: Colors.red, fontSize: 12),
+                            ),
+                          ),
                       ]),
                       const SizedBox(height: Dimensions.paddingSizeOverExtraLarge),
 
@@ -634,6 +646,14 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                             },
                           ),
                         ) : const SizedBox(),
+                        if (ApiChecker.errors['allergies'] != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text(
+                              ApiChecker.errors['allergies']!,
+                              style: TextStyle(color: Colors.red, fontSize: 12),
+                            ),
+                          ),
                       ]),
                       const SizedBox(height: Dimensions.paddingSizeOverExtraLarge),
 
@@ -801,6 +821,14 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                           },
                         ),
                       ),
+                      if (ApiChecker.errors['addon_ids'] != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Text(
+                            ApiChecker.errors['addon_ids']!,
+                            style: TextStyle(color: Colors.red, fontSize: 12),
+                          ),
+                        ),
 
                     ]),
                   ),
@@ -822,12 +850,28 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                         title: 'start_time'.tr, time: _product!.availableTimeStarts,
                         onTimeChanged: (time) => _product!.availableTimeStarts = time,
                       ),
+                      if (ApiChecker.errors['available_time_starts'] != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Text(
+                            ApiChecker.errors['available_time_starts']!,
+                            style: TextStyle(color: Colors.red, fontSize: 12),
+                          ),
+                        ),
                       const SizedBox(height: Dimensions.paddingSizeOverExtraLarge),
 
                       CustomTimePickerWidget(
                         title: 'ends_time'.tr, time: _product!.availableTimeEnds,
                         onTimeChanged: (time) => _product!.availableTimeEnds = time,
                       ),
+                      if (ApiChecker.errors['available_time_ends'] != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Text(
+                            ApiChecker.errors['available_time_ends']!,
+                            style: TextStyle(color: Colors.red, fontSize: 12),
+                          ),
+                        ),
 
                     ]),
                   ),
@@ -848,6 +892,7 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                       CustomTextFieldWidget(
                         hintText: 'price'.tr,
                         labelText: 'price'.tr,
+                        errorText: ApiChecker.errors['price'],
                         controller: _priceController,
                         focusNode: _priceNode,
                         nextFocus: _discountNode,
@@ -897,6 +942,7 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                         Expanded(child: CustomTextFieldWidget(
                           hintText: 'discount'.tr,
                           labelText: 'discount'.tr,
+                          errorText: ApiChecker.errors['discount'],
                           controller: _discountController,
                           focusNode: _discountNode,
                           isAmount: true,
@@ -909,6 +955,7 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                       CustomTextFieldWidget(
                         hintText: 'maximum_order_quantity'.tr,
                         labelText: 'maximum_order_quantity'.tr,
+                        errorText: ApiChecker.errors['maximum_cart_quantity'],
                         controller: _maxOrderQuantityController,
                         isAmount: true,
                         showTitle: false,
@@ -957,6 +1004,7 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                           child: CustomTextFieldWidget(
                             hintText: 'tag'.tr,
                             labelText: 'tag'.tr,
+                            errorText: ApiChecker.errors['tags'],
                             showTitle: false,
                             controller: _tagController,
                             inputAction: TextInputAction.done,
@@ -1022,56 +1070,69 @@ class _AddProductScreenState extends State<AddProductScreen> with TickerProvider
                     ),
                     child: Column(children: [
 
-                      Align(alignment: Alignment.center, child: Stack(children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                          child: restController.pickedLogo != null ? GetPlatform.isWeb ? Image.network(
-                            restController.pickedLogo!.path, width: 150, height: 150, fit: BoxFit.cover,
-                          ) : Image.file(
-                            File(restController.pickedLogo!.path), width: 150, height: 150, fit: BoxFit.cover,
-                          ) : _product!.imageFullUrl != null ? CustomImageWidget(
-                            image: _product!.imageFullUrl ?? '',
-                            height: 150, width: 150, fit: BoxFit.cover,
-                          ): SizedBox(
-                            width: 150, height: 150,
-                            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                              Icon(CupertinoIcons.camera_fill, color: Theme.of(context).disabledColor.withOpacity(0.5), size: 38),
-                              const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                      Align(alignment: Alignment.center, child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Stack(children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                              child: restController.pickedLogo != null ? GetPlatform.isWeb ? Image.network(
+                                restController.pickedLogo!.path, width: 150, height: 150, fit: BoxFit.cover,
+                              ) : Image.file(
+                                File(restController.pickedLogo!.path), width: 150, height: 150, fit: BoxFit.cover,
+                              ) : _product!.imageFullUrl != null ? CustomImageWidget(
+                                image: _product!.imageFullUrl ?? '',
+                                height: 150, width: 150, fit: BoxFit.cover,
+                              ): SizedBox(
+                                width: 150, height: 150,
+                                child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                  Icon(CupertinoIcons.camera_fill, color: Theme.of(context).disabledColor.withOpacity(0.5), size: 38),
+                                  const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
-                              Text('upload_item_image'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeExtraSmall)),
+                                  Text('upload_item_image'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeExtraSmall)),
 
-                            ]),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0, right: 0, top: 0, left: 0,
-                          child: InkWell(
-                            onTap: () => restController.pickImage(true, false),
-                            child: DottedBorder(
-                              color: Theme.of(context).primaryColor,
-                              strokeWidth: 1,
-                              strokeCap: StrokeCap.butt,
-                              dashPattern: const [5, 5],
-                              padding: const EdgeInsets.all(0),
-                              borderType: BorderType.RRect,
-                              radius: const Radius.circular(Dimensions.radiusDefault),
-                              child: Center(
-                                child: Visibility(
-                                  visible: restController.pickedLogo != null || _product!.imageFullUrl != null ? true : false,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(25),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(width: 2, color: Colors.white),
-                                      shape: BoxShape.circle,
+                                ]),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0, right: 0, top: 0, left: 0,
+                              child: InkWell(
+                                onTap: () => restController.pickImage(true, false),
+                                child: DottedBorder(
+                                  color: Theme.of(context).primaryColor,
+                                  strokeWidth: 1,
+                                  strokeCap: StrokeCap.butt,
+                                  dashPattern: const [5, 5],
+                                  padding: const EdgeInsets.all(0),
+                                  borderType: BorderType.RRect,
+                                  radius: const Radius.circular(Dimensions.radiusDefault),
+                                  child: Center(
+                                    child: Visibility(
+                                      visible: restController.pickedLogo != null || _product!.imageFullUrl != null ? true : false,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(25),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(width: 2, color: Colors.white),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(Icons.camera_alt, color: Colors.white),
+                                      ),
                                     ),
-                                    child: const Icon(Icons.camera_alt, color: Colors.white),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                      ])),
+                          ]),
+                          if (ApiChecker.errors['image'] != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4.0),
+                              child: Text(
+                                ApiChecker.errors['image']!,
+                                style: TextStyle(color: Colors.red, fontSize: 12),
+                              ),
+                            ),
+                        ],
+                      )),
                       const SizedBox(height: Dimensions.paddingSizeDefault),
 
                       SizedBox(

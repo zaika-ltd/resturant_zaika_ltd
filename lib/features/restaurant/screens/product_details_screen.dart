@@ -530,7 +530,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               ),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                                Text(review.customerName ?? 'customer_not_found'.tr, style: robotoMedium),
+                                Text(review.customer?.fName ?? 'customer_not_found'.tr, style: robotoMedium),
                                 const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
                                 RatingBarWidget(rating: review.rating!.toDouble(), ratingCount: null),

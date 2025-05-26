@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_app_bar_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_button_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_image_widget.dart';
@@ -16,6 +17,8 @@ import 'package:stackfood_multivendor_restaurant/util/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stackfood_multivendor_restaurant/util/styles.dart';
+
+import '../../../util/images.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -40,6 +43,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   void initState() {
     super.initState();
+    ApiChecker.errors.clear();
     _initCall();
   }
 
@@ -117,6 +121,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               nextFocus: _lastNameFocus,
                               prefixIcon: CupertinoIcons.person_alt_circle_fill,
                               labelText: 'first_name'.tr,
+                              errorText: ApiChecker.errors['f_name'],
                               required: true,
                               validator: (value) => ValidateCheck.validateEmptyText(value, "please_enter_first_name".tr),
                             ),
@@ -131,6 +136,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               nextFocus: _emailFocus,
                               prefixIcon: CupertinoIcons.person_alt_circle_fill,
                               labelText: 'last_name'.tr,
+                              errorText: ApiChecker.errors['l_name'],
                               required: true,
                               validator: (value) => ValidateCheck.validateEmptyText(value, "please_enter_last_name".tr),
                             ),
@@ -147,6 +153,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               },
                               countryDialCode: _countryDialCode,
                               labelText: 'phone'.tr,
+                              errorText: ApiChecker.errors['phone'],
                               required: true,
                             ),
                             const SizedBox(height: Dimensions.paddingSizeOverExtraLarge),
@@ -210,39 +217,51 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
                     Positioned(
                       top: -50, left: 0, right: 0,
-                      child: Center(child: Stack(children: [
+                      child: Center(child: Column(
+                        children: [
+                          Stack(children: [
 
-                        ClipOval(child: profileController.pickedFile != null ? GetPlatform.isWeb ? Image.network(
-                            profileController.pickedFile!.path, width: 100, height: 100, fit: BoxFit.cover) : Image.file(
-                            File(profileController.pickedFile!.path), width: 100, height: 100, fit: BoxFit.cover) : CustomImageWidget(
-                          image: '${profileController.profileModel!.imageFullUrl}',
-                          height: 100, width: 100, fit: BoxFit.cover,
-                        ),
-                        ),
+                            ClipOval(child: profileController.pickedFile != null ? GetPlatform.isWeb ? Image.network(
+                                profileController.pickedFile!.path, width: 100, height: 100, fit: BoxFit.cover) : Image.file(
+                                File(profileController.pickedFile!.path), width: 100, height: 100, fit: BoxFit.cover) : CustomImageWidget(
+                              image: '${profileController.profileModel!.imageFullUrl}',
+                              height: 100, width: 100, fit: BoxFit.cover,
+                            ),
+                            ),
 
-                        Positioned(
-                          bottom: 0, right: 0, top: 0, left: 0,
-                          child: InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            onTap: () => profileController.pickImage(),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.3), shape: BoxShape.circle,
-                                //border: Border.all(width: 1, color: Theme.of(context).primaryColor),
-                              ),
-                              child: Container(
-                                margin: const EdgeInsets.all(25),
-                                decoration: BoxDecoration(
-                                  border: Border.all(width: 2, color: Colors.white),
-                                  shape: BoxShape.circle,
+                            Positioned(
+                              bottom: 0, right: 0, top: 0, left: 0,
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                onTap: () => profileController.pickImage(),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.3), shape: BoxShape.circle,
+                                    //border: Border.all(width: 1, color: Theme.of(context).primaryColor),
+                                  ),
+                                  child: Container(
+                                    margin: const EdgeInsets.all(25),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(width: 2, color: Colors.white),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(Icons.camera_alt, color: Colors.white),
+                                  ),
                                 ),
-                                child: const Icon(Icons.camera_alt, color: Colors.white),
                               ),
                             ),
-                          ),
-                        ),
-                      ])),
+                          ]),
+                          if (ApiChecker.errors['image'] != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4.0),
+                              child: Text(
+                                ApiChecker.errors['image']!,
+                                style: TextStyle(color: Colors.red, fontSize: 12),
+                              ),
+                            ),
+                        ],
+                      )),
                     ),
 
                   ]),

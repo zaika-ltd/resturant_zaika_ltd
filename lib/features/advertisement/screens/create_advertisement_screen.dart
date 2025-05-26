@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/models/config_model.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_app_bar_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_asset_image_widget.dart';
@@ -192,6 +193,7 @@ class _CreateAdvertisementScreenState extends State<CreateAdvertisementScreen> w
                             capitalization: TextCapitalization.sentences,
                             inputAction: TextInputAction.done,
                             isEnabled : false,
+                            errorText: ApiChecker.errors['validity'],
                             hideEnableText: true,
                             suffixIcon: Icons.date_range_rounded,
                             validator: (value) {
@@ -241,6 +243,7 @@ class _CreateAdvertisementScreenState extends State<CreateAdvertisementScreen> w
                             titleText: "${'title'.tr} (${_languageList![multiLanguageTabController!.index].value})".tr,
                             labelText: "${'title'.tr} (${_languageList[multiLanguageTabController!.index].value})".tr,
                             inputType: TextInputType.text,
+                            errorText: ApiChecker.errors['title'],
                             controller: titleController[multiLanguageTabController!.index],
                             capitalization: TextCapitalization.sentences,
                             focusNode: _titleFocus,
@@ -253,6 +256,7 @@ class _CreateAdvertisementScreenState extends State<CreateAdvertisementScreen> w
                             titleText: "${'description'.tr} ${_languageList[multiLanguageTabController!.index].value}".tr,
                             labelText: '${'description'.tr.replaceAll(":", "")}(${_languageList[multiLanguageTabController!.index].value})',
                             inputType: TextInputType.text,
+                            errorText: ApiChecker.errors['description'],
                             controller: descriptionController[multiLanguageTabController!.index],
                             // labelText: "description".tr,
                             capitalization: TextCapitalization.sentences,

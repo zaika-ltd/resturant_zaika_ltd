@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_dropdown_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_text_field_widget.dart';
 import 'package:stackfood_multivendor_restaurant/features/restaurant/controllers/restaurant_controller.dart';
@@ -61,6 +62,7 @@ class StackSectionWidget extends StatelessWidget {
         CustomTextFieldWidget(
           hintText: restaurantController.stockTypeIndex == 0 ? 'unlimited'.tr : 'food_stock'.tr,
           labelText: restaurantController.stockTypeIndex == 0 ? 'unlimited'.tr : 'food_stock'.tr,
+          errorText: ApiChecker.errors['item_stock'],
           controller: stockTextController,
           inputAction: TextInputAction.done,
           inputType: TextInputType.phone,

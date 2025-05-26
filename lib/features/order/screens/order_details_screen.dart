@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/confirmation_dialog_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_app_bar_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_asset_image_widget.dart';
@@ -442,6 +443,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> with WidgetsBin
                           child: CustomTextFieldWidget(
                             labelText: 'table_number'.tr,
                             hintText: 'table_number'.tr,
+                            errorText: ApiChecker.errors['table_number'],
                             controller: _tableNumberController,
                             isEnabled: widget.orderModel.orderStatus == 'delivered' ? false : true,
                             hideEnableText: widget.orderModel.orderStatus == 'delivered' ? true : false,
@@ -453,6 +455,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> with WidgetsBin
                           child: CustomTextFieldWidget(
                             labelText: 'token_number'.tr,
                             hintText: 'token_number'.tr,
+                            errorText: ApiChecker.errors['token_number'],
                             controller: _tokenNumberController,
                             isEnabled: widget.orderModel.orderStatus == 'delivered' ? false : true,
                             hideEnableText: widget.orderModel.orderStatus == 'delivered' ? true : false,

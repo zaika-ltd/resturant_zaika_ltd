@@ -1,3 +1,4 @@
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_text_field_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_text_form_field_widget.dart';
 import 'package:stackfood_multivendor_restaurant/features/restaurant/controllers/restaurant_controller.dart';
@@ -101,6 +102,7 @@ class _VariationViewWidgetState extends State<VariationViewWidget> {
                     child: CustomTextFieldWidget(
                       hintText: 'name'.tr,
                       labelText: 'name'.tr,
+                      errorText: ApiChecker.errors['name'],
                       showTitle: false,
                       controller: widget.restController.variationList![index].nameController,
                       borderColor: Theme.of(context).disabledColor,
@@ -189,6 +191,7 @@ class _VariationViewWidgetState extends State<VariationViewWidget> {
                       child: CustomTextFieldWidget(
                         hintText: 'min'.tr,
                         labelText: 'min'.tr,
+                        errorText: ApiChecker.errors['min'],
                         showTitle: false,
                         inputType: TextInputType.number,
                         controller: widget.restController.variationList![index].minController,
@@ -201,6 +204,7 @@ class _VariationViewWidgetState extends State<VariationViewWidget> {
                       child: CustomTextFieldWidget(
                         hintText: 'max'.tr,
                         labelText: 'max'.tr,
+                        errorText: ApiChecker.errors['max'],
                         inputType: TextInputType.number,
                         showTitle: false,
                         controller: widget.restController.variationList![index].maxController,
@@ -247,6 +251,7 @@ class _VariationViewWidgetState extends State<VariationViewWidget> {
                                       child: CustomTextFieldWidget(
                                         hintText: 'option_name'.tr,
                                         labelText: 'option_name'.tr,
+                                        errorText: ApiChecker.errors['option_name'],
                                         showTitle: false,
                                         controller: widget.restController.variationList![index].options![i].optionNameController,
                                         borderColor: Theme.of(context).disabledColor,
@@ -258,6 +263,7 @@ class _VariationViewWidgetState extends State<VariationViewWidget> {
                                       child: CustomTextFieldWidget(
                                         hintText: 'additional_price'.tr,
                                         labelText: 'additional_price'.tr,
+                                        errorText: ApiChecker.errors['additional_price'],
                                         showTitle: false,
                                         controller: widget.restController.variationList![index].options![i].optionPriceController,
                                         inputType: TextInputType.number,

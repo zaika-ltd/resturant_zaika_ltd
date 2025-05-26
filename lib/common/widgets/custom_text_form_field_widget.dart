@@ -30,6 +30,7 @@ class CustomTextFormFieldWidget extends StatefulWidget {
   final Color? containerColor;
   final bool isBorderEnabled;
   final bool isNumber;
+  final String? errorText;
 
   const CustomTextFormFieldWidget({
     super.key,
@@ -57,6 +58,7 @@ class CustomTextFormFieldWidget extends StatefulWidget {
     this.containerColor,
     this.isBorderEnabled = true,
     this.isNumber = false,
+    this.errorText,
   });
 
   @override
@@ -122,6 +124,7 @@ class CustomTextFormFieldWidgetState extends State<CustomTextFormFieldWidget> {
               : widget.isAmount ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))] : null,
           decoration: InputDecoration(
             hintText: widget.hintText,
+            errorText: widget.errorText,
             contentPadding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall, horizontal: Dimensions.paddingSizeDefault),
             fillColor: widget.fillColor ?? Theme.of(context).cardColor,
             border: widget.isBorderEnabled ? OutlineInputBorder(

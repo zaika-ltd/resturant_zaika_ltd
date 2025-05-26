@@ -33,6 +33,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../api/api_checker.dart';
+
 class RestaurantRegistrationScreen extends StatefulWidget {
   const RestaurantRegistrationScreen({super.key});
 
@@ -176,122 +178,148 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
 
                               Row(children: [
 
-                                Expanded(flex: 4, child: Align(alignment: Alignment.center, child: Stack(children: [
+                                Expanded(flex: 4, child: Align(alignment: Alignment.center, child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Stack(children: [
 
-                                  Padding(
-                                    padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                      child: authController.pickedLogo != null ? GetPlatform.isWeb ? Image.network(
-                                        authController.pickedLogo!.path, width: 150, height: 120, fit: BoxFit.cover,
-                                      ) : Image.file(
-                                        File(authController.pickedLogo!.path), width: 150, height: 120, fit: BoxFit.cover,
-                                      ) : SizedBox(
-                                        width: 150, height: 120,
-                                        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                          child: authController.pickedLogo != null ? GetPlatform.isWeb ? Image.network(
+                                            authController.pickedLogo!.path, width: 150, height: 120, fit: BoxFit.cover,
+                                          ) : Image.file(
+                                            File(authController.pickedLogo!.path), width: 150, height: 120, fit: BoxFit.cover,
+                                          ) : SizedBox(
+                                            width: 150, height: 120,
+                                            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
 
-                                          Icon(Icons.camera_alt, size: 38, color: Theme.of(context).disabledColor),
-                                          const SizedBox(height: Dimensions.paddingSizeSmall),
+                                              Icon(Icons.camera_alt, size: 38, color: Theme.of(context).disabledColor),
+                                              const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                                          Text(
-                                            'select_restaurant_logo'.tr,
-                                            style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center,
-                                          ),
-
-                                        ]),
-                                      ),
-                                    ),
-                                  ),
-
-                                  Positioned(
-                                    bottom: 0, right: 0, top: 0, left: 0,
-                                    child: InkWell(
-                                      onTap: () => authController.pickImageForRegistration(true, false),
-                                      child: DottedBorder(
-                                        color: Theme.of(context).primaryColor,
-                                        strokeWidth: 1,
-                                        strokeCap: StrokeCap.butt,
-                                        dashPattern: const [5, 5],
-                                        padding: const EdgeInsets.all(0),
-                                        borderType: BorderType.RRect,
-                                        radius: const Radius.circular(Dimensions.radiusDefault),
-                                        child: Center(
-                                          child: Visibility(
-                                            visible: authController.pickedLogo != null,
-                                            child: Container(
-                                              padding: const EdgeInsets.all(25),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(width: 2, color: Colors.white),
-                                                shape: BoxShape.circle,
+                                              Text(
+                                                'select_restaurant_logo'.tr,
+                                                style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center,
                                               ),
-                                              child: const Icon(Icons.camera_alt, color: Colors.white),
+
+                                            ]),
+                                          ),
+                                        ),
+                                      ),
+
+                                      Positioned(
+                                        bottom: 0, right: 0, top: 0, left: 0,
+                                        child: InkWell(
+                                          onTap: () => authController.pickImageForRegistration(true, false),
+                                          child: DottedBorder(
+                                            color: Theme.of(context).primaryColor,
+                                            strokeWidth: 1,
+                                            strokeCap: StrokeCap.butt,
+                                            dashPattern: const [5, 5],
+                                            padding: const EdgeInsets.all(0),
+                                            borderType: BorderType.RRect,
+                                            radius: const Radius.circular(Dimensions.radiusDefault),
+                                            child: Center(
+                                              child: Visibility(
+                                                visible: authController.pickedLogo != null,
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(25),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(width: 2, color: Colors.white),
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: const Icon(Icons.camera_alt, color: Colors.white),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
 
-                                ]))),
+                                    ]),
+                                    if (ApiChecker.errors['logo'] != null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 4.0),
+                                        child: Text(
+                                          ApiChecker.errors['logo']!,
+                                          style: TextStyle(color: Colors.red, fontSize: 12),
+                                        ),
+                                      ),
+                                  ],
+                                ))),
                                 const SizedBox(width: Dimensions.paddingSizeSmall),
 
-                                Expanded(flex: 6, child: Stack(children: [
+                                Expanded(flex: 6, child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Stack(children: [
 
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                      child: authController.pickedCover != null ? GetPlatform.isWeb ? Image.network(
-                                        authController.pickedCover!.path, width: context.width, height: 120, fit: BoxFit.cover,
-                                      ) : Image.file(
-                                        File(authController.pickedCover!.path), width: context.width, height: 120, fit: BoxFit.cover,
-                                      ) : SizedBox(
-                                        width: context.width, height: 120,
-                                        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                          child: authController.pickedCover != null ? GetPlatform.isWeb ? Image.network(
+                                            authController.pickedCover!.path, width: context.width, height: 120, fit: BoxFit.cover,
+                                          ) : Image.file(
+                                            File(authController.pickedCover!.path), width: context.width, height: 120, fit: BoxFit.cover,
+                                          ) : SizedBox(
+                                            width: context.width, height: 120,
+                                            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
 
-                                          Icon(Icons.camera_alt, size: 38, color: Theme.of(context).disabledColor),
-                                          const SizedBox(height: Dimensions.paddingSizeSmall),
+                                              Icon(Icons.camera_alt, size: 38, color: Theme.of(context).disabledColor),
+                                              const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                                          Text(
-                                            'select_restaurant_cover_photo'.tr,
-                                            style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center,
-                                          ),
-
-                                        ]),
-                                      ),
-                                    ),
-                                  ),
-
-                                  Positioned(
-                                    bottom: 0, right: 0, top: 0, left: 0,
-                                    child: InkWell(
-                                      onTap: () => authController.pickImageForRegistration(false, false),
-                                      child: DottedBorder(
-                                        color: Theme.of(context).primaryColor,
-                                        strokeWidth: 1,
-                                        strokeCap: StrokeCap.butt,
-                                        dashPattern: const [5, 5],
-                                        padding: const EdgeInsets.all(0),
-                                        borderType: BorderType.RRect,
-                                        radius: const Radius.circular(Dimensions.radiusDefault),
-                                        child: Center(
-                                          child: Visibility(
-                                            visible: authController.pickedCover != null,
-                                            child: Container(
-                                              padding: const EdgeInsets.all(25),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(width: 3, color: Colors.white),
-                                                shape: BoxShape.circle,
+                                              Text(
+                                                'select_restaurant_cover_photo'.tr,
+                                                style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center,
                                               ),
-                                              child: const Icon(Icons.camera_alt, color: Colors.white, size: 50),
+
+                                            ]),
+                                          ),
+                                        ),
+                                      ),
+
+                                      Positioned(
+                                        bottom: 0, right: 0, top: 0, left: 0,
+                                        child: InkWell(
+                                          onTap: () => authController.pickImageForRegistration(false, false),
+                                          child: DottedBorder(
+                                            color: Theme.of(context).primaryColor,
+                                            strokeWidth: 1,
+                                            strokeCap: StrokeCap.butt,
+                                            dashPattern: const [5, 5],
+                                            padding: const EdgeInsets.all(0),
+                                            borderType: BorderType.RRect,
+                                            radius: const Radius.circular(Dimensions.radiusDefault),
+                                            child: Center(
+                                              child: Visibility(
+                                                visible: authController.pickedCover != null,
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(25),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(width: 3, color: Colors.white),
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: const Icon(Icons.camera_alt, color: Colors.white, size: 50),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
 
-                                ])),
+                                    ]),
+                                    if (ApiChecker.errors['cover_photo'] != null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 4.0),
+                                        child: Text(
+                                          ApiChecker.errors['cover_photo']!,
+                                          style: TextStyle(color: Colors.red, fontSize: 12),
+                                        ),
+                                      ),
+                                  ],
+                                )),
 
                               ]),
                               const SizedBox(height: Dimensions.paddingSizeExtraLarge),
@@ -329,6 +357,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                 hintText: '${'restaurant_name'.tr} (${_languageList?[_tabController!.index].value!})',
                                 labelText: '${'restaurant_name'.tr} (${_languageList?[_tabController!.index].value!})',
                                 controller: _nameController[_tabController!.index],
+                                errorText: ApiChecker.errors['restaurant_name'],
                                 focusNode: _nameFocus[_tabController!.index],
                                 nextFocus: _tabController!.index != _languageList!.length-1 ? _addressFocus[_tabController!.index] : _addressFocus[0],
                                 inputType: TextInputType.name,
@@ -343,6 +372,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                               CustomTextFieldWidget(
                                 hintText: 'enter_restaurant_address'.tr,
                                 labelText: 'address'.tr,
+                                errorText: ApiChecker.errors['address'],
                                 controller: _addressController[0],
                                 focusNode: _addressFocus[0],
                                 inputAction: TextInputAction.done,
@@ -356,6 +386,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                               CustomTextFieldWidget(
                                 hintText: 'vat_tax'.tr,
                                 labelText: 'vat_tax'.tr,
+                                errorText: ApiChecker.errors['vat_tax'],
                                 controller: _vatController,
                                 focusNode: _vatFocus,
                                 inputAction: TextInputAction.done,
@@ -516,6 +547,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                 Expanded(child: CustomTextFieldWidget(
                                   hintText : 'first_name'.tr,
                                   labelText: 'first_name'.tr,
+                                  errorText: ApiChecker.errors['first_name'],
                                   controller: _fNameController,
                                   focusNode: _fNameFocus,
                                   nextFocus: _lNameFocus,
@@ -527,6 +559,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                 Expanded(child: CustomTextFieldWidget(
                                   hintText : 'last_name'.tr,
                                   labelText: 'last_name'.tr,
+                                  errorText: ApiChecker.errors['last_name'],
                                   controller: _lNameController,
                                   focusNode: _lNameFocus,
                                   nextFocus: _phoneFocus,
@@ -540,6 +573,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                               CustomTextFieldWidget(
                                 hintText : 'enter_phone_number'.tr,
                                 labelText: 'phone_number'.tr,
+                                errorText: ApiChecker.errors['phone'],
                                 controller: _phoneController,
                                 focusNode: _phoneFocus,
                                 nextFocus: _emailFocus,
@@ -560,6 +594,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                 controller: _emailController,
                                 focusNode: _emailFocus,
                                 nextFocus: _passwordFocus,
+                                errorText: ApiChecker.errors['email'],
                                 inputType: TextInputType.emailAddress,
                               ),
                               const SizedBox(height: Dimensions.paddingSizeExtraLarge),
@@ -567,6 +602,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                               CustomTextFieldWidget(
                                 hintText: 'password'.tr,
                                 labelText: 'password'.tr,
+                                errorText: ApiChecker.errors['password'],
                                 controller: _passwordController,
                                 focusNode: _passwordFocus,
                                 nextFocus: _confirmPasswordFocus,
@@ -592,6 +628,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                               CustomTextFieldWidget(
                                 hintText: 'confirm_password'.tr,
                                 labelText: 'confirm_password'.tr,
+                                errorText: ApiChecker.errors['confirm_password'],
                                 controller: _confirmPasswordController,
                                 focusNode: _confirmPasswordFocus,
                                 inputType: TextInputType.visiblePassword,
@@ -893,7 +930,19 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                           'additional_data': jsonEncode(additionalData),
                         });
 
-                        authController.registerRestaurant(data, additionalDocuments, additionalDocumentsInputType);
+                        authController.registerRestaurant(data, additionalDocuments, additionalDocumentsInputType).then((value) {
+                          if (!validateStep01()) {
+                            authController.storeStatusChange(0.1);
+                            _scrollController.jumpTo(_scrollController.position.minScrollExtent);
+                            return;
+                          }
+
+                          if (!validateStep06()) {
+                            authController.storeStatusChange(0.6);
+                            _scrollController.jumpTo(_scrollController.position.minScrollExtent);
+                            return;
+                          }
+                        },);
                       }},
                   ) : const Center(child: Padding(
                     padding: EdgeInsets.all(Dimensions.paddingSizeDefault),
@@ -916,6 +965,31 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
       description: 'are_you_sure_to_go_back'.tr, isLogOut: true,
       onYesPressed: () => Get.offAllNamed(RouteHelper.getSignInRoute()),
     ), useSafeArea: false);
+  }
+
+  bool validateStep01(){
+    if (ApiChecker.errors['logo'] != null){
+      return false;
+    }
+    if (ApiChecker.errors['cover_photo'] != null){
+      return false;
+    }
+    return true;
+  }
+  bool validateStep06(){
+    if (ApiChecker.errors['email'] != null){
+      return false;
+    }
+    if(ApiChecker.errors['phone'] != null){
+      return false;
+    }
+    if(ApiChecker.errors['password'] != null){
+      return false;
+    }
+    if(ApiChecker.errors['confirm_password'] != null){
+      return false;
+    }
+    return true;
   }
 
 }

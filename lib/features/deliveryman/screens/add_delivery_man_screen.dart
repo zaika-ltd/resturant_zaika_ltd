@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../api/api_checker.dart';
+
 class AddDeliveryManScreen extends StatefulWidget {
   final DeliveryManModel? deliveryMan;
   const AddDeliveryManScreen({super.key, required this.deliveryMan});
@@ -47,6 +49,7 @@ class _AddDeliveryManScreenState extends State<AddDeliveryManScreen> {
   @override
   void initState() {
     super.initState();
+    ApiChecker.errors.clear();
 
     _deliveryMan = widget.deliveryMan;
     _update = widget.deliveryMan != null;
@@ -101,46 +104,59 @@ class _AddDeliveryManScreenState extends State<AddDeliveryManScreen> {
                   style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                 )),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
-                Align(alignment: Alignment.center, child: Stack(children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                    child: dmController.pickedImage != null ? GetPlatform.isWeb ? Image.network(
-                      dmController.pickedImage!.path, width: 150, height: 120, fit: BoxFit.cover,
-                    ) : Image.file(
-                      File(dmController.pickedImage!.path), width: 150, height: 120, fit: BoxFit.cover,
-                    ) : FadeInImage.assetNetwork(
-                      placeholder: Images.placeholder,
-                      image: _deliveryMan!.imageFullUrl ?? '',
-                      height: 120, width: 150, fit: BoxFit.cover,
-                      imageErrorBuilder: (c, o, s) => Image.asset(Images.placeholder, height: 120, width: 150, fit: BoxFit.cover),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0, right: 0, top: 0, left: 0,
-                    child: InkWell(
-                      onTap: () => dmController.pickImage(true, false),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3), borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                          border: Border.all(width: 1, color: Theme.of(context).primaryColor),
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.all(25),
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 2, color: Colors.white),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.camera_alt, color: Colors.white),
+                Align(alignment: Alignment.center, child: Column(
+                  children: [
+                    Stack(children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                        child: dmController.pickedImage != null ? GetPlatform.isWeb ? Image.network(
+                          dmController.pickedImage!.path, width: 150, height: 120, fit: BoxFit.cover,
+                        ) : Image.file(
+                          File(dmController.pickedImage!.path), width: 150, height: 120, fit: BoxFit.cover,
+                        ) : FadeInImage.assetNetwork(
+                          placeholder: Images.placeholder,
+                          image: _deliveryMan!.imageFullUrl ?? '',
+                          height: 120, width: 150, fit: BoxFit.cover,
+                          imageErrorBuilder: (c, o, s) => Image.asset(Images.placeholder, height: 120, width: 150, fit: BoxFit.cover),
                         ),
                       ),
-                    ),
-                  ),
-                ])),
+                      Positioned(
+                        bottom: 0, right: 0, top: 0, left: 0,
+                        child: InkWell(
+                          onTap: () => dmController.pickImage(true, false),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.3), borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                              border: Border.all(width: 1, color: Theme.of(context).primaryColor),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.all(25),
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 2, color: Colors.white),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.camera_alt, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
+                    if (ApiChecker.errors['image'] != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          ApiChecker.errors['image']!,
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
+                      ),
+                  ],
+                )),
                 const SizedBox(height: Dimensions.paddingSizeLarge),
 
                 Row(children: [
                   Expanded(child: CustomTextFormFieldWidget(
                     hintText: 'first_name'.tr,
+                    errorText: ApiChecker.errors['f_name'],
                     controller: _fNameController,
                     capitalization: TextCapitalization.words,
                     inputType: TextInputType.name,
@@ -151,6 +167,7 @@ class _AddDeliveryManScreenState extends State<AddDeliveryManScreen> {
 
                   Expanded(child: CustomTextFormFieldWidget(
                     hintText: 'last_name'.tr,
+                    errorText: ApiChecker.errors['l_name'],
                     controller: _lNameController,
                     capitalization: TextCapitalization.words,
                     inputType: TextInputType.name,
@@ -162,6 +179,7 @@ class _AddDeliveryManScreenState extends State<AddDeliveryManScreen> {
 
                 CustomTextFormFieldWidget(
                   hintText: 'email'.tr,
+                  errorText: ApiChecker.errors['email'],
                   controller: _emailController,
                   focusNode: _emailNode,
                   nextFocus: _phoneNode,
@@ -197,6 +215,7 @@ class _AddDeliveryManScreenState extends State<AddDeliveryManScreen> {
                   const SizedBox(width: Dimensions.paddingSizeSmall),
                   Expanded(flex: 1, child: CustomTextFormFieldWidget(
                     hintText: 'phone'.tr,
+                    errorText: ApiChecker.errors['phone'],
                     controller: _phoneController,
                     focusNode: _phoneNode,
                     nextFocus: _passwordNode,
@@ -208,6 +227,7 @@ class _AddDeliveryManScreenState extends State<AddDeliveryManScreen> {
 
                 CustomTextFormFieldWidget(
                   hintText: 'password'.tr,
+                  errorText: ApiChecker.errors['password'],
                   controller: _passwordController,
                   focusNode: _passwordNode,
                   nextFocus: _identityNumberNode,
@@ -259,11 +279,20 @@ class _AddDeliveryManScreenState extends State<AddDeliveryManScreen> {
                         underline: const SizedBox(),
                       ),
                     ),
+                    if (ApiChecker.errors['identity_type'] != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          ApiChecker.errors['identity_type']!,
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
+                      ),
                   ])),
                   const SizedBox(width: Dimensions.paddingSizeSmall),
 
                   Expanded(child: CustomTextFormFieldWidget(
                     hintText: 'identity_number'.tr,
+                    errorText: ApiChecker.errors['identity_number'],
                     controller: _identityNumberController,
                     focusNode: _identityNumberNode,
                     inputAction: TextInputAction.done,
@@ -350,26 +379,38 @@ class _AddDeliveryManScreenState extends State<AddDeliveryManScreen> {
                           border: Border.all(color: Theme.of(context).primaryColor, width: 2),
                           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                         ),
-                        child: Stack(children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                            child: GetPlatform.isWeb ? Image.network(
-                              file!.path, width: 150, height: 120, fit: BoxFit.cover,
-                            ) : Image.file(
-                              File(file!.path), width: 150, height: 120, fit: BoxFit.cover,
-                            ),
-                          ),
-                          Positioned(
-                            right: 0, top: 0,
-                            child: InkWell(
-                              onTap: () => dmController.removeIdentityImage(index),
-                              child: Padding(
-                                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                child: Icon(Icons.delete_forever, color: Theme.of(context).colorScheme.error),
+                        child: Column(
+                          children: [
+                            Stack(children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                child: GetPlatform.isWeb ? Image.network(
+                                  file!.path, width: 150, height: 120, fit: BoxFit.cover,
+                                ) : Image.file(
+                                  File(file!.path), width: 150, height: 120, fit: BoxFit.cover,
+                                ),
                               ),
-                            ),
-                          ),
-                        ]),
+                              Positioned(
+                                right: 0, top: 0,
+                                child: InkWell(
+                                  onTap: () => dmController.removeIdentityImage(index),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                    child: Icon(Icons.delete_forever, color: Theme.of(context).colorScheme.error),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            if (ApiChecker.errors['identity_image[]'] != null)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: Text(
+                                  ApiChecker.errors['identity_image[]']!,
+                                  style: TextStyle(color: Colors.red, fontSize: 12),
+                                ),
+                              ),
+                          ],
+                        ),
                       );
                     },
                   ),

@@ -1,3 +1,4 @@
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_app_bar_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_asset_image_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_button_widget.dart';
@@ -85,6 +86,7 @@ class _NewPassScreenState extends State<NewPassScreen> {
                   CustomTextFieldWidget(
                     hintText: '8_characters'.tr,
                     labelText: 'password'.tr,
+                    errorText: ApiChecker.errors['password'],
                     controller: _newPasswordController,
                     focusNode: _newPasswordFocus,
                     nextFocus: _confirmPasswordFocus,
@@ -111,6 +113,7 @@ class _NewPassScreenState extends State<NewPassScreen> {
                   CustomTextFieldWidget(
                     labelText: 'confirm_password'.tr,
                     hintText: '8_characters'.tr,
+                    errorText: ApiChecker.errors['confirm_password'],
                     controller: _confirmPasswordController,
                     focusNode: _confirmPasswordFocus,
                     inputAction: TextInputAction.done,

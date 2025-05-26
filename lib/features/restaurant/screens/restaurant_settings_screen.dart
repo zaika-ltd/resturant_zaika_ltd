@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/controllers/theme_controller.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_app_bar_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_button_widget.dart';
@@ -74,6 +75,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
   @override
   void initState() {
     super.initState();
+    ApiChecker.errors.clear();
 
     _getTimeList();
     Get.find<RestaurantController>().initRestaurantData(widget.restaurant);
@@ -182,40 +184,53 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                   boxShadow: const [BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 5)],
                 ),
-                child: Align(alignment: Alignment.center, child: Stack(children: [
+                child: Align(alignment: Alignment.center, child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Stack(children: [
 
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                    child: restController.pickedLogo != null ? GetPlatform.isWeb ? Image.network(
-                      restController.pickedLogo!.path, width: 150, height: 120, fit: BoxFit.cover) : Image.file(
-                      File(restController.pickedLogo!.path), width: 150, height: 120, fit: BoxFit.cover) : CustomImageWidget(
-                      image: '${widget.restaurant.logoFullUrl}',
-                      height: 120, width: 150, fit: BoxFit.cover,
-                    ),
-                  ),
-
-                  Positioned(
-                    bottom: 0, right: 0, top: 0, left: 0,
-                    child: InkWell(
-                      onTap: () => restController.pickImage(true, false),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3), borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                          border: Border.all(width: 1, color: Theme.of(context).primaryColor),
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.all(25),
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 2, color: Colors.white),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.camera_alt, color: Colors.white),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                        child: restController.pickedLogo != null ? GetPlatform.isWeb ? Image.network(
+                          restController.pickedLogo!.path, width: 150, height: 120, fit: BoxFit.cover) : Image.file(
+                          File(restController.pickedLogo!.path), width: 150, height: 120, fit: BoxFit.cover) : CustomImageWidget(
+                          image: '${widget.restaurant.logoFullUrl}',
+                          height: 120, width: 150, fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                  ),
 
-                ])),
+                      Positioned(
+                        bottom: 0, right: 0, top: 0, left: 0,
+                        child: InkWell(
+                          onTap: () => restController.pickImage(true, false),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.3), borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                              border: Border.all(width: 1, color: Theme.of(context).primaryColor),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.all(25),
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 2, color: Colors.white),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.camera_alt, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    ]),
+                    if (ApiChecker.errors['logo'] != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          ApiChecker.errors['logo']!,
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
+                      ),
+                  ],
+                )),
               ),
               const SizedBox(height: Dimensions.paddingSizeLarge),
 
@@ -235,6 +250,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                       padding: EdgeInsets.only(bottom: index == _languageList.length-1 ? 0 : Dimensions.paddingSizeLarge),
                       child: CustomTextFormFieldWidget(
                         hintText: '${'restaurant_name'.tr} (${_languageList[index].value!})',
+                        errorText: ApiChecker.errors['name'],
                         controller: _nameController[index],
                         focusNode: _nameNode[index],
                         nextFocus: index != _languageList.length-1 ? _nameNode[index+1] : _contactNode,
@@ -256,6 +272,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                 ),
                 child: CustomTextFormFieldWidget(
                   hintText: 'contact_number'.tr,
+                  errorText: ApiChecker.errors['contact_number'],
                   controller: _contactController,
                   focusNode: _contactNode,
                   nextFocus: _addressNode[0],
@@ -280,6 +297,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                       padding: EdgeInsets.only(bottom: index == _languageList.length-1 ? 0 : Dimensions.paddingSizeLarge),
                       child: CustomTextFormFieldWidget(
                         hintText: '${'address'.tr} (${_languageList[index].value!})',
+                        errorText: ApiChecker.errors['address'],
                         controller: _addressController[index],
                         focusNode: _addressNode[index],
                         nextFocus: index != _languageList.length-1 ? _addressNode[index+1] : _orderAmountNode,
@@ -315,6 +333,14 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                     ),
 
                   ]),
+                  if (ApiChecker.errors['customer_date_order_sratus'] != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Text(
+                        ApiChecker.errors['customer_date_order_sratus']!,
+                        style: TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
 
                 ]),
               ) : const SizedBox(),
@@ -331,6 +357,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
 
                   CustomTextFormFieldWidget(
                     hintText: 'customer_can_order_within_days'.tr,
+                    errorText: ApiChecker.errors['customer_order_date'],
                     controller: _customerOrderDaysController,
                     focusNode: _customerOrderDaysNode,
                     inputAction: TextInputAction.done,
@@ -351,6 +378,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                 ),
                 child: CustomTextFormFieldWidget(
                   hintText: 'minimum_order_amount'.tr,
+                  errorText: ApiChecker.errors['minimum_order'],
                   controller: _orderAmountController,
                   focusNode: _orderAmountNode,
                   nextFocus: _restaurant.selfDeliverySystem == 1 ? _perKmChargeNode : null,
@@ -370,6 +398,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                 ),
                 child: CustomTextFormFieldWidget(
                   hintText: 'per_km_delivery_charge'.tr,
+                  errorText: ApiChecker.errors['per_km_delivery_charge'],
                   controller: _perKmChargeController,
                   focusNode: _restaurant.selfDeliverySystem == 1 ? _perKmChargeNode : null,
                   nextFocus: _restaurant.selfDeliverySystem == 1 ? _minimumChargeNode : null,
@@ -389,6 +418,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                 child: Column(children: [
                   CustomTextFormFieldWidget(
                     hintText: 'minimum_delivery_charge'.tr,
+                    errorText: ApiChecker.errors['minimum_delivery_charge'],
                     controller: _minimumChargeController,
                     focusNode: _minimumChargeNode,
                     nextFocus: _maximumChargeNode,
@@ -399,6 +429,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
 
                   CustomTextFormFieldWidget(
                     hintText: 'maximum_delivery_charge'.tr,
+                    errorText: ApiChecker.errors['maximum_delivery_charge'],
                     controller: _maximumChargeController,
                     focusNode: _maximumChargeNode,
                     inputAction: TextInputAction.done,
@@ -433,10 +464,19 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                     ),
 
                   ]),
+                  if (ApiChecker.errors['free_delivery_distance_status'] != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Text(
+                        ApiChecker.errors['free_delivery_distance_status']!,
+                        style: TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
                   const SizedBox(height: Dimensions.paddingSizeSmall),
 
                   CustomTextFormFieldWidget(
                     hintText: 'free_delivery_distance_km'.tr,
+                    errorText: ApiChecker.errors['free_delivery_distance'],
                     controller: _freeDeliveryDistanceController,
                     focusNode: _freeDeliveryDistanceNode,
                     inputAction: TextInputAction.done,
@@ -467,6 +507,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                       child: CustomTextFieldWidget(
                         hintText: 'tag'.tr,
                         labelText: 'tag'.tr,
+                        errorText: ApiChecker.errors['tag'],
                         showTitle: false,
                         controller: _tagController,
                         inputAction: TextInputAction.done,
@@ -536,6 +577,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                       padding: EdgeInsets.only(bottom: index == _languageList.length-1 ? 0 : Dimensions.paddingSizeLarge),
                       child: CustomTextFormFieldWidget(
                         hintText:  '${'meta_title'.tr}  (${_languageList[index].value!})',
+                        errorText: ApiChecker.errors['meta_title'],
                         controller: _metaTitleController[index],
                         focusNode: _metaTitleNode[index],
                         nextFocus: index != _languageList.length-1 ? _metaTitleNode[index+1] : _metaDescriptionNode[0],
@@ -564,6 +606,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                       padding: EdgeInsets.only(bottom: index == _languageList.length-1 ? 0 : Dimensions.paddingSizeLarge),
                       child: CustomTextFormFieldWidget(
                         hintText:  '${'meta_description'.tr}  (${_languageList[index].value!})',
+                        errorText: ApiChecker.errors['meta_description'],
                         controller: _metaDescriptionController[index],
                         focusNode: _metaDescriptionNode[index],
                         nextFocus: index != _languageList.length-1 ? _metaDescriptionNode[index+1] : _metaKeyWordNode,
@@ -762,6 +805,15 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
 
                   ]),
                 ),
+                // characteristics
+                if (ApiChecker.errors['characteristics'] != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Text(
+                      ApiChecker.errors['characteristics']!,
+                      style: TextStyle(color: Colors.red, fontSize: 12),
+                    ),
+                  ),
               ]),
               const SizedBox(height: Dimensions.paddingSizeLarge),
 
@@ -1056,6 +1108,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                         child: CustomTextFormFieldWidget(
                           hintText: 'extra_packaging'.tr,
+                          errorText: ApiChecker.errors['extra_packaging_amount'],
                           controller: _extraPackagingController,
                           inputAction: TextInputAction.done,
                           showTitle: false,
@@ -1099,6 +1152,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
 
                   CustomTextFormFieldWidget(
                     hintText: 'gst'.tr,
+                    errorText: ApiChecker.errors['gst'],
                     controller: _gstController,
                     inputAction: TextInputAction.done,
                     showTitle: false,
@@ -1318,42 +1372,55 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                   boxShadow: const [BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 5)],
                 ),
-                child: Stack(children: [
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Stack(children: [
 
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                    child: restController.pickedCover != null ? GetPlatform.isWeb ? Image.network(
-                      restController.pickedCover!.path, width: context.width, height: 170, fit: BoxFit.cover,
-                    ) : Image.file(
-                      File(restController.pickedCover!.path), width: context.width, height: 170, fit: BoxFit.cover,
-                    ) : CustomImageWidget(
-                      image: '${widget.restaurant.coverPhotoFullUrl}',
-                      height: 170, width: context.width, fit: BoxFit.cover,
-                    ),
-                  ),
-
-                  Positioned(
-                    bottom: 0, right: 0, top: 0, left: 0,
-                    child: InkWell(
-                      onTap: () => restController.pickImage(false, false),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3), borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                          border: Border.all(width: 1, color: Theme.of(context).primaryColor),
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.all(25),
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 3, color: Colors.white),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.camera_alt, color: Colors.white, size: 50),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                        child: restController.pickedCover != null ? GetPlatform.isWeb ? Image.network(
+                          restController.pickedCover!.path, width: context.width, height: 170, fit: BoxFit.cover,
+                        ) : Image.file(
+                          File(restController.pickedCover!.path), width: context.width, height: 170, fit: BoxFit.cover,
+                        ) : CustomImageWidget(
+                          image: '${widget.restaurant.coverPhotoFullUrl}',
+                          height: 170, width: context.width, fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                  ),
 
-                ]),
+                      Positioned(
+                        bottom: 0, right: 0, top: 0, left: 0,
+                        child: InkWell(
+                          onTap: () => restController.pickImage(false, false),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.3), borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                              border: Border.all(width: 1, color: Theme.of(context).primaryColor),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.all(25),
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 3, color: Colors.white),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.camera_alt, color: Colors.white, size: 50),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    ]),
+                    if (ApiChecker.errors['cover_photo'] != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          ApiChecker.errors['cover_photo']!,
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
+                      ),
+                  ],
+                ),
               ),
 
             ]),
@@ -1419,11 +1486,13 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                     showCustomSnackBar('per_km_charge_can_not_be_more_then_maximum_charge'.tr);
                   }else if(_restaurant.selfDeliverySystem == 1 && minimumFee.isNotEmpty && (maximumFee.isNotEmpty ? (double.parse(minimumFee) > double.parse(maximumFee)) : false)) {
                     showCustomSnackBar('minimum_charge_can_not_be_more_then_maximum_charge'.tr);
-                  }else if(defaultMetaTitleNull) {
-                    showCustomSnackBar('enter_meta_title'.tr);
-                  }else if(defaultMetaDescriptionNull) {
-                    showCustomSnackBar('enter_meta_description'.tr);
-                  }else if(!restController.isRestVeg! && !restController.isRestNonVeg!){
+                  }
+                  // else if(defaultMetaTitleNull) {
+                  //   showCustomSnackBar('enter_meta_title'.tr);
+                  // }else if(defaultMetaDescriptionNull) {
+                  //   showCustomSnackBar('enter_meta_description'.tr);
+                  // }
+                  else if(!restController.isRestVeg! && !restController.isRestNonVeg!){
                     showCustomSnackBar('select_at_least_one_food_type'.tr);
                   }else if(restController.isGstEnabled! && gstCode.isEmpty){
                     showCustomSnackBar('enter_gst_code'.tr);

@@ -47,6 +47,7 @@ class CustomTextFieldWidget extends StatefulWidget {
   final bool hideEnableText;
   final int? maxLength;
   final bool onFocusChanged;
+  final String? errorText;
 
   const CustomTextFieldWidget({
     super.key,
@@ -90,6 +91,7 @@ class CustomTextFieldWidget extends StatefulWidget {
     this.hideEnableText = false,
     this.maxLength,
     this.onFocusChanged = true,
+    this.errorText,
   });
 
   @override
@@ -154,6 +156,7 @@ class CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
             borderSide: BorderSide(style: widget.showBorder ? BorderStyle.solid : BorderStyle.none, width: 1, color: Theme.of(context).disabledColor.withOpacity(0.5)),
           ),
           isDense: true,
+          errorText: widget.errorText,
           hintText: widget.hintText,
           fillColor: Theme.of(context).cardColor,
           hintStyle: robotoRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).hintColor.withOpacity(0.7)),

@@ -1,3 +1,4 @@
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_button_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_snackbar_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_text_field_widget.dart';
@@ -90,6 +91,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                         CustomTextFieldWidget(
                           hintText: 'email'.tr,
+                          errorText: ApiChecker.errors['email'],
                           showLabelText: false,
                           controller: _emailController,
                           focusNode: _emailFocus,
@@ -103,6 +105,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         CustomTextFieldWidget(
                           hintText: 'password'.tr,
                           showLabelText: false,
+                          errorText: ApiChecker.errors['email'],
                           controller: _passwordController,
                           focusNode: _passwordFocus,
                           inputAction: TextInputAction.done,

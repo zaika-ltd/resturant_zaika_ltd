@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_dropdown_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_text_form_field_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/models/config_model.dart';
@@ -136,6 +137,7 @@ class _AddAddonBottomSheetWidgetState extends State<AddAddonBottomSheetWidget> w
           CustomTextFormFieldWidget(
             //hintText: '${'addon_name'.tr} (${_languageList?[_tabController!.index].value})',
             hintText: 'name'.tr,
+            errorText: ApiChecker.errors['name'],
             controller: _nameControllers[_tabController!.index],
             focusNode: _nameNodes[_tabController!.index],
             nextFocus: _tabController!.index != _languageList!.length-1 ? _priceNode : _priceNode,
@@ -147,6 +149,7 @@ class _AddAddonBottomSheetWidgetState extends State<AddAddonBottomSheetWidget> w
 
           CustomTextFormFieldWidget(
             hintText: 'price'.tr,
+            errorText: ApiChecker.errors['price'],
             controller: _priceController,
             focusNode: _priceNode,
             inputAction: TextInputAction.done,
@@ -190,7 +193,15 @@ class _AddAddonBottomSheetWidgetState extends State<AddAddonBottomSheetWidget> w
                     style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color),
                   ),
                 ),
-              )
+              ),
+              if (ApiChecker.errors['stock_type'] != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Text(
+                    ApiChecker.errors['stock_type']!,
+                    style: TextStyle(color: Colors.red, fontSize: 12),
+                  ),
+                ),
 
             ])),
             const SizedBox(width: Dimensions.paddingSizeDefault),
@@ -199,6 +210,7 @@ class _AddAddonBottomSheetWidgetState extends State<AddAddonBottomSheetWidget> w
 
               CustomTextFormFieldWidget(
                 hintText: restaurantController.stockTypeIndex == 0 ? 'unlimited'.tr : 'addon_stock'.tr,
+                errorText: ApiChecker.errors['addon_stock'],
                 controller: _stockTextController,
                 inputAction: TextInputAction.done,
                 inputType: TextInputType.phone,

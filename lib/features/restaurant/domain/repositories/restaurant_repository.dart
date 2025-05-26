@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stackfood_multivendor_restaurant/features/restaurant/domain/models/product_model.dart';
 
+import '../../../../api/api_checker.dart';
+
 class RestaurantRepository implements RestaurantRepositoryInterface{
   final ApiClient apiClient;
   RestaurantRepository({required this.apiClient});
@@ -106,7 +108,11 @@ class RestaurantRepository implements RestaurantRepositoryInterface{
       fields.addAll(<String, String> {'_method': 'put', 'id': product.id.toString()});
     }
     Response response = await apiClient.postMultipartData(isAdd ? AppConstants.addProductUri : AppConstants.updateProductUri, fields, [MultipartBody('image', image)], []);
-    return (response.statusCode == 200);
+    if(response.statusCode == 200 && response.body['errors'] != null){
+      ApiChecker.checkApi(response);
+      return false;
+    }
+    return true;
   }
 
   @override
