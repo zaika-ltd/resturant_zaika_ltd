@@ -152,9 +152,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: Dimensions.paddingSizeDefault),
 
                 OrderSummaryCard(profileController: profileController),
-                const SizedBox(height: Dimensions.paddingSizeLarge),
-
-                const AdsSectionWidget(),
+                // const SizedBox(height: Dimensions.paddingSizeLarge),
+                //
+                // const AdsSectionWidget(),
               ]);
             }),
             const SizedBox(height: Dimensions.paddingSizeLarge),

@@ -24,7 +24,7 @@ class MenuScreen extends StatelessWidget {
 
       MenuModel(icon: Images.campaign, title: 'campaign'.tr, route: RouteHelper.getCampaignRoute()),
 
-      MenuModel(icon: Images.adsMenu, title: 'advertisements'.tr, route: RouteHelper.getAdvertisementListRoute()),
+      // MenuModel(icon: Images.adsMenu, title: 'advertisements'.tr, route: RouteHelper.getAdvertisementListRoute()),
 
       MenuModel(icon: Images.addon, title: 'addons'.tr, route: RouteHelper.getAddonsRoute()),
 
