@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_app_bar_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_button_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_dropdown_widget.dart';
@@ -41,12 +42,49 @@ class _SelectLocationViewWidgetState extends State<SelectLocationViewWidget> {
       Get.find<LocationController>().getZoneList();
     }
 
-    _cameraPosition = CameraPosition(
-      target: LatLng(
-        double.parse(Get.find<SplashController>().configModel?.defaultLocation?.lat ?? '0'),
-        double.parse(Get.find<SplashController>().configModel?.defaultLocation?.lng ?? '0'),
-      ), zoom: 16,
-    );
+    _initializeLocation();
+  }
+
+  Future<bool> _checkPermission() async {
+    if (!await _requestAndCheckPermission(Permission.location)) {
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> _requestAndCheckPermission(Permission permission) async {
+    await permission.request();
+    var status = await permission.status;
+    return !status.isDenied;
+  }
+
+  Future<void> _initializeLocation() async {
+    bool access = await _checkPermission();
+    if(access) {
+      CameraPosition pos = await _getCurrentLocation();
+      setState(() {
+        _cameraPosition = pos;
+      });
+    }
+  }
+
+  Future<CameraPosition> _getCurrentLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      return CameraPosition(target: LatLng(position.latitude, position.longitude));
+    } catch (e) {
+      final splashController = Get.find<SplashController>();
+      double lat = double.tryParse(
+          splashController.configModel?.defaultLocation?.lat ?? '0') ?? 0.0;
+      double lng = double.tryParse(
+          splashController.configModel?.defaultLocation?.lng ?? '0') ?? 0.0;
+
+      return CameraPosition(
+        target: LatLng(lat, lng),
+        zoom: 16,
+      );
+    }
   }
 
   @override
@@ -126,7 +164,8 @@ class _SelectLocationViewWidgetState extends State<SelectLocationViewWidget> {
               compassEnabled: false,
               indoorViewEnabled: true,
               mapToolbarEnabled: false,
-              myLocationEnabled: false,
+              myLocationEnabled: true,
+              myLocationButtonEnabled: true,
               zoomGesturesEnabled: true,
               polygons: _polygons,
               onCameraIdle: () {

@@ -1,0 +1,2 @@
+C:/Users/HARSHALI/Desktop/waris/zaika_restaurant_app/android/app/.cxx/Debug/4w6b5h40/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/HARSHALI/Desktop/waris/zaika_restaurant_app/android/app/.cxx/Debug/4w6b5h40/armeabi-v7a/CMakeFiles/rebuild_cache.dir

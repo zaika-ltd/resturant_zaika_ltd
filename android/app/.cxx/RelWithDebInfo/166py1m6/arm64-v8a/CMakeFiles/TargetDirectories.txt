@@ -1,0 +1,2 @@
+C:/Users/HARSHALI/Desktop/waris/zaika_restaurant_app/android/app/.cxx/RelWithDebInfo/166py1m6/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/HARSHALI/Desktop/waris/zaika_restaurant_app/android/app/.cxx/RelWithDebInfo/166py1m6/arm64-v8a/CMakeFiles/rebuild_cache.dir

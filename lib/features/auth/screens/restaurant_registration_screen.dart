@@ -91,7 +91,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
       _tabs.add(Tab(text: language.value));
     }
 
-    Get.find<AuthController>().pickImageForRegistration(false, true);
+    Get.find<AuthController>().pickImageForRegistration(false, true, false);
     Get.find<AuthController>().setJoinUsPageData(willUpdate: false);
     Get.find<AuthController>().storeStatusChange(0.1, willUpdate: false);
     Get.find<RestaurantController>().getCuisineList();
@@ -211,7 +211,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                       Positioned(
                                         bottom: 0, right: 0, top: 0, left: 0,
                                         child: InkWell(
-                                          onTap: () => authController.pickImageForRegistration(true, false),
+                                          onTap: () => _showBottomBarCamera(context, true, authController),
                                           child: DottedBorder(
                                             color: Theme.of(context).primaryColor,
                                             strokeWidth: 1,
@@ -283,7 +283,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                       Positioned(
                                         bottom: 0, right: 0, top: 0, left: 0,
                                         child: InkWell(
-                                          onTap: () => authController.pickImageForRegistration(false, false),
+                                          onTap: () => _showBottomBarCamera(context, false, authController),
                                           child: DottedBorder(
                                             color: Theme.of(context).primaryColor,
                                             strokeWidth: 1,
@@ -957,6 +957,37 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
         });
       });
     });
+  }
+
+  Future<void> _showBottomBarCamera(BuildContext context, bool isLogo, AuthController authController) async {
+    showModalBottomSheet(
+        barrierColor:  Colors.grey.withOpacity(0.5),
+        backgroundColor: Colors.transparent,
+        context: context, builder: (context) =>
+        SafeArea(
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.camera_alt, size: 28, color: Theme.of(context).disabledColor),
+                  title: Text('Camera',style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7))),
+                  tileColor: Theme.of(context).cardColor,
+                  onTap: () {
+                    Get.back();
+                    authController.pickImageForRegistration(isLogo, false, true);
+                  },
+                ),
+                ListTile(
+                    leading:  Icon(Icons.image_sharp, size: 28, color: Theme.of(context).disabledColor),
+                    title: Text('Gallery',style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7))),
+                    tileColor: Theme.of(context).cardColor,
+                    onTap: () {
+                      Get.back();
+                      authController.pickImageForRegistration(isLogo, false, false);
+                    }
+                )
+              ],
+            )
+        ));
   }
 
   Future<void> _showBackPressedDialogue(String title) async{

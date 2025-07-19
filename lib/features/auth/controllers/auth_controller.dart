@@ -147,15 +147,16 @@ class AuthController extends GetxController implements GetxService {
     return responseModel;
   }
 
-  void pickImageForRegistration(bool isLogo, bool isRemove) async {
+  void pickImageForRegistration(bool isLogo, bool isRemove, bool isCamera) async {
     if(isRemove) {
       _pickedLogo = null;
       _pickedCover = null;
     }else {
+      XFile? _pickedFile = await ImagePicker().pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery, imageQuality: 50);
       if (isLogo) {
-        _pickedLogo = await authServiceInterface.pickImageFromGallery();
+        _pickedLogo = _pickedFile;
       } else {
-        _pickedCover = await authServiceInterface.pickImageFromGallery();
+        _pickedCover = _pickedFile;
       }
       update();
     }

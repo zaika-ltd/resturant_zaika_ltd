@@ -55,7 +55,7 @@ android {
         applicationId "com.zaika.restaurant"
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode flutterVersionCode.toInteger()
+        versionCode 7
         versionName flutterVersionName
         multiDexEnabled true
     }
