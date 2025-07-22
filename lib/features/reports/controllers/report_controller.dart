@@ -270,9 +270,21 @@ class ReportController extends GetxController implements GetxService {
   Future<void> downloadPdf(String url, int orderId) async {
     try {
       // Request storage permission
-      var status = await Permission.storage.request();
+      if (!await Permission.manageExternalStorage.isGranted) {
+        final status = await Permission.manageExternalStorage.request();
 
-      if (status.isGranted) {
+        if (!status.isGranted) {
+          if (status.isPermanentlyDenied) {
+            openAppSettings();
+          } else {
+            showCustomSnackBar('permission_denied_cannot_download_the_file'.tr);
+          }
+          return;
+        }
+      }
+
+
+
         var response = await http.get(Uri.parse(url));
 
         if (response.statusCode == 200) {
@@ -290,9 +302,7 @@ class ReportController extends GetxController implements GetxService {
         } else {
           showCustomSnackBar('download_failed'.tr);
         }
-      } else if (status.isDenied || status.isPermanentlyDenied) {
-        showCustomSnackBar('permission_denied_cannot_download_the_file'.tr);
-      }
+
     } catch (e) {
       showCustomSnackBar('download_failed'.tr);
     }

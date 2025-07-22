@@ -16,7 +16,8 @@ import 'package:path/path.dart' as path;
 class PdfViewWidget extends StatelessWidget {
   final Message currentMessage;
   final bool isRightMessage;
-  const PdfViewWidget({super.key, required this.currentMessage, required this.isRightMessage});
+  const PdfViewWidget(
+      {super.key, required this.currentMessage, required this.isRightMessage});
 
   @override
   Widget build(BuildContext context) {
@@ -24,70 +25,85 @@ class PdfViewWidget extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: currentMessage.filesFullUrl!.length,
-        itemBuilder: (context, index){
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-          border: Border.all(color: Theme.of(context).disabledColor, width: 0.3),
-          color: Theme.of(context).cardColor,
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall, vertical: Dimensions.paddingSizeSmall),
-        margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
-        child: InkWell(
-          onTap: (){
-            downloadPdf(currentMessage.filesFullUrl![index]);
-          },
-          child: Center(
-            child: Directionality(
-              textDirection: TextDirection.ltr,
-              child: Row(crossAxisAlignment: CrossAxisAlignment.center,children: [
-                const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                Image.asset(Images.fileIcon, height: 30, width: 30),
-                const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                Expanded(child: Text(
-                  '${'attachment'.tr} ${index + 1}.pdf',
-                  maxLines: 3, overflow: TextOverflow.ellipsis,
-                  style: robotoBold.copyWith(fontSize: Dimensions.fontSizeDefault),
-                )),
-
-
-              ]),
+        itemBuilder: (context, index) {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+              border: Border.all(
+                  color: Theme.of(context).disabledColor, width: 0.3),
+              color: Theme.of(context).cardColor,
             ),
-          ),
-        ),
-      );
-    });
+            padding: const EdgeInsets.symmetric(
+                horizontal: Dimensions.paddingSizeExtraSmall,
+                vertical: Dimensions.paddingSizeSmall),
+            margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
+            child: InkWell(
+              onTap: () {
+                downloadPdf(currentMessage.filesFullUrl![index]);
+              },
+              child: Center(
+                child: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                        Image.asset(Images.fileIcon, height: 30, width: 30),
+                        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                        Expanded(
+                            child: Text(
+                          '${'attachment'.tr} ${index + 1}.pdf',
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: robotoBold.copyWith(
+                              fontSize: Dimensions.fontSizeDefault),
+                        )),
+                      ]),
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   Future<void> downloadPdf(String url) async {
     try {
       // Request storage permission
-      var status = await Permission.storage.request();
+      if (!await Permission.manageExternalStorage.isGranted) {
+        final status = await Permission.manageExternalStorage.request();
 
-      if (status.isGranted) {
-        var response = await http.get(Uri.parse(url));
-
-        if (response.statusCode == 200) {
-          Directory directory = await PdfDownloadHelper.getProjectDirectory(Get.find<SplashController>().configModel?.businessName ?? AppConstants.appName);
-
-          String fileExtension = 'pdf';
-          String fileName = generateUniqueFileName(fileExtension);
-          String filePath = path.join(directory.path, fileName);
-
-          // Write the file to the directory
-          File file = File(filePath);
-          await file.writeAsBytes(response.bodyBytes);
-
-          String relativePath = file.path.replaceAll('/storage/emulated/0/', '');
-
-          showCustomSnackBar('${'download_complete_file_saved_at'.tr} $relativePath', isError: false);
-        } else {
-          showCustomSnackBar('download_failed'.tr);
+        if (!status.isGranted) {
+          if (status.isPermanentlyDenied) {
+            openAppSettings();
+          } else {
+            showCustomSnackBar('permission_denied_cannot_download_the_file'.tr);
+          }
+          return;
         }
-      } else if (status.isDenied || status.isPermanentlyDenied) {
-        showCustomSnackBar('permission_denied_cannot_download_the_file'.tr);
+      }
+
+      var response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        Directory directory = await PdfDownloadHelper.getProjectDirectory(
+            Get.find<SplashController>().configModel?.businessName ??
+                AppConstants.appName);
+
+        String fileExtension = 'pdf';
+        String fileName = generateUniqueFileName(fileExtension);
+        String filePath = path.join(directory.path, fileName);
+
+        // Write the file to the directory
+        File file = File(filePath);
+        await file.writeAsBytes(response.bodyBytes);
+
+        String relativePath = file.path.replaceAll('/storage/emulated/0/', '');
+
+        showCustomSnackBar(
+            '${'download_complete_file_saved_at'.tr} $relativePath',
+            isError: false);
+      } else {
+        showCustomSnackBar('download_failed'.tr);
       }
     } catch (e) {
       showCustomSnackBar('download_failed'.tr);
@@ -98,5 +114,4 @@ class PdfViewWidget extends StatelessWidget {
     String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
     return 'File_$timestamp.$fileExtension';
   }
-
 }
