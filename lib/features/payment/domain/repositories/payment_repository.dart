@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:stackfood_multivendor_restaurant/common/models/response_model.dart';
 import 'package:stackfood_multivendor_restaurant/api/api_client.dart';
 import 'package:stackfood_multivendor_restaurant/features/payment/domain/models/bank_info_body_model.dart';
@@ -37,6 +38,7 @@ class PaymentRepository implements PaymentRepositoryInterface {
   @override
   Future<bool> requestWithdraw(Map<String?, String> data) async {
     Response response = await apiClient.postData(AppConstants.withdrawRequestUri, data);
+    debugPrint("Response is ${response}");
     return (response.statusCode == 200);
   }
 

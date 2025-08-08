@@ -69,7 +69,9 @@ class ApiClient extends GetxService {
     try {
       debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
       debugPrint('====> API Body: $body with ${multipartBody.length} and multipart ${otherFile.length}');
+
       http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse(appBaseUrl+uri));
+      // return request;
       request.headers.addAll(headers ?? _mainHeaders);
       for(MultipartBody multipart in multipartBody) {
         if(multipart.file != null) {
@@ -101,6 +103,8 @@ class ApiClient extends GetxService {
       request.fields.addAll(body);
       http.Response response = await http.Response.fromStream(await request.send());
       return handleResponse(response, uri, handleError);
+      return const Response(statusCode: 1, statusText: noInternetMessage);
+
     } catch (e) {
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }

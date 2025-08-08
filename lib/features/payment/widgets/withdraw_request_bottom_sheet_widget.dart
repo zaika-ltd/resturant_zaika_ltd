@@ -9,8 +9,12 @@ import 'package:stackfood_multivendor_restaurant/util/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../profile/controllers/profile_controller.dart';
+
 class WithdrawRequestBottomSheetWidget extends StatefulWidget {
-  const WithdrawRequestBottomSheetWidget({super.key});
+
+  final ProfileController profileController;
+  const WithdrawRequestBottomSheetWidget({super.key, required this.profileController});
 
   @override
   State<WithdrawRequestBottomSheetWidget> createState() => _WithdrawRequestBottomSheetWidgetState();
@@ -135,7 +139,16 @@ class _WithdrawRequestBottomSheetWidgetState extends State<WithdrawRequestBottom
                   showCustomSnackBar('required_fields_can_not_be_empty'.tr);
                 }else if(_amountController.text.trim().isEmpty){
                   showCustomSnackBar('enter_amount'.tr);
-                }else{
+                }else if (
+                (double.tryParse(_amountController.text.trim()) ?? 0.0) >=
+                    (double.tryParse(widget.profileController.profileModel!.dynamicBalance?.toString() ?? '0.0') ?? 0.0)
+                ) {
+                  showCustomSnackBar("Entered amount is greater than available balance.");
+
+                }
+                else{
+
+
                   Map<String?, String> data = {};
                   data['id'] = paymentController.widthDrawMethods![paymentController.methodIndex!].id.toString();
                   data['amount'] = _amountController.text.trim();

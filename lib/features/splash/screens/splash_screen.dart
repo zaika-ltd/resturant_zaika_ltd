@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:stackfood_multivendor_restaurant/features/auth/controllers/auth_controller.dart';
 import 'package:stackfood_multivendor_restaurant/features/dashboard/screens/dashboard_screen.dart';
 import 'package:stackfood_multivendor_restaurant/features/splash/controllers/splash_controller.dart';
@@ -29,7 +30,7 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
+    _checkForUpdate();
     bool firstTime = true;
     _onConnectivityChanged = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
       bool isConnected = result.contains(ConnectivityResult.wifi) || result.contains(ConnectivityResult.mobile);
@@ -49,11 +50,50 @@ class SplashScreenState extends State<SplashScreen> {
       firstTime = false;
     });
 
+
     Get.find<SplashController>().initSharedData();
     _route();
 
   }
 
+  Future<void> _checkForUpdate() async {
+    try {
+      final AppUpdateInfo updateInfo = await InAppUpdate.checkForUpdate();
+      if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable &&
+          updateInfo.flexibleUpdateAllowed) {
+
+        await InAppUpdate.startFlexibleUpdate();
+
+        if (context.mounted) {
+          showUpdateSnackBar(context);
+        }
+      }
+    } catch (e) {
+
+      if (mounted) { // Check if the widget is still in the tree
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(content: Text("Unable to download updated version $e")),
+        // );
+      }
+    }
+  }
+// A function to show a SnackBar for completing the update
+  void showUpdateSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('A new update has been downloaded.'),
+        // Make the SnackBar persistent so the user can restart whenever they want.
+        duration: const Duration(days: 1),
+        action: SnackBarAction(
+          label: 'RESTART',
+          onPressed: () {
+            // Complete the update when the user clicks the "RESTART" button.
+            InAppUpdate.completeFlexibleUpdate();
+          },
+        ),
+      ),
+    );
+  }
   @override
   void dispose() {
     super.dispose();

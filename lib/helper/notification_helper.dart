@@ -159,10 +159,10 @@ class NotificationHelper {
   static Future<void> showTextNotification(String title, String body, NotificationBodyModel? notificationBody, FlutterLocalNotificationsPlugin fln) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'stackfood', 'stackfood', playSound: true,
-      importance: Importance.max, priority: Priority.max, sound: RawResourceAndroidNotificationSound('new_notification'),
+      importance: Importance.max, priority: Priority.high, sound: RawResourceAndroidNotificationSound('notification'),
     );
     const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
-    await fln.show(0, title, body, platformChannelSpecifics, payload: notificationBody != null ? jsonEncode(notificationBody.toJson()) : null);
+    await fln.show(DateTime.now().millisecondsSinceEpoch % 100000, title, body, platformChannelSpecifics, payload: notificationBody != null ? jsonEncode(notificationBody.toJson()) : null);
   }
 
   static Future<void> showBigTextNotification(String? title, String body, NotificationBodyModel? notificationBody, FlutterLocalNotificationsPlugin fln) async {
@@ -172,11 +172,11 @@ class NotificationHelper {
     );
     AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'stackfood', 'stackfood', importance: Importance.max,
-      styleInformation: bigTextStyleInformation, priority: Priority.max, playSound: true,
-      sound: const RawResourceAndroidNotificationSound('new_notification'),
+      styleInformation: bigTextStyleInformation, priority: Priority.high, playSound: true,
+      sound: const RawResourceAndroidNotificationSound('notification'),
     );
     NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
-    await fln.show(0, title, body, platformChannelSpecifics, payload: notificationBody != null ? jsonEncode(notificationBody.toJson()) : null);
+    await fln.show(DateTime.now().millisecondsSinceEpoch % 100000, title, body, platformChannelSpecifics, payload: notificationBody != null ? jsonEncode(notificationBody.toJson()) : null);
   }
 
   static Future<void> showBigPictureNotificationHiddenLargeIcon(String? title, String? body, NotificationBodyModel? notificationBody, String image, FlutterLocalNotificationsPlugin fln) async {
@@ -189,12 +189,12 @@ class NotificationHelper {
     );
     final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'stackfood', 'stackfood',
-      largeIcon: FilePathAndroidBitmap(largeIconPath), priority: Priority.max, playSound: true,
+      largeIcon: FilePathAndroidBitmap(largeIconPath), priority: Priority.high, playSound: true,
       styleInformation: bigPictureStyleInformation, importance: Importance.max,
-      sound: const RawResourceAndroidNotificationSound('new_notification'),
+      sound: const RawResourceAndroidNotificationSound('notification'),
     );
     final NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
-    await fln.show(0, title, body, platformChannelSpecifics, payload: notificationBody != null ? jsonEncode(notificationBody.toJson()) : null);
+    await fln.show(DateTime.now().millisecondsSinceEpoch % 100000, title, body, platformChannelSpecifics, payload: notificationBody != null ? jsonEncode(notificationBody.toJson()) : null);
   }
 
   static Future<String> _downloadAndSaveFile(String url, String fileName) async {

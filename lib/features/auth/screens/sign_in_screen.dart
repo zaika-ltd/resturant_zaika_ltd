@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:stackfood_multivendor_restaurant/api/api_checker.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_button_widget.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_snackbar_widget.dart';
@@ -32,7 +33,12 @@ class _SignInScreenState extends State<SignInScreen> {
     super.initState();
     _emailController.text = Get.find<AuthController>().getUserNumber();
     _passwordController.text = Get.find<AuthController>().getUserPassword();
-
+      if(kDebugMode){
+        // _emailController.text='shripatimali@gmail.com';
+        // _passwordController.text='Jaina@1962';
+        _emailController.text='aryaishuparth141@gmail.com';
+        _passwordController.text='Zaika@987';
+      }
     _showRegistrationSuccessBottomSheet();
   }
 

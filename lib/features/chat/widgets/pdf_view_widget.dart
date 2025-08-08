@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -65,51 +66,70 @@ class PdfViewWidget extends StatelessWidget {
           );
         });
   }
+//
+//   Future<void> downloadPdf(String url) async {
+//     try {
+//       // Request storage permission
+//       if (!await Permission.manageExternalStorage.isGranted) {
+//         final status = await Permission.manageExternalStorage.request();
+//
+//         if (!status.isGranted) {
+//           if (status.isPermanentlyDenied) {
+//             openAppSettings();
+//           } else {
+//             showCustomSnackBar('permission_denied_cannot_download_the_file'.tr);
+//           }
+//           return;
+//         }
+//       }
+//
+//       var response = await http.get(Uri.parse(url));
+//
+//       if (response.statusCode == 200) {
+//         Directory directory = await PdfDownloadHelper.getProjectDirectory(
+//             Get.find<SplashController>().configModel?.businessName ??
+//                 AppConstants.appName);
+//
+//         String fileExtension = 'pdf';
+//         String fileName = generateUniqueFileName(fileExtension);
+//         String filePath = path.join(directory.path, fileName);
+//
+//         // Write the file to the directory
+//         File file = File(filePath);
+//         await file.writeAsBytes(response.bodyBytes);
+//
+//         String relativePath = file.path.replaceAll('/storage/emulated/0/', '');
+//
+//         showCustomSnackBar(
+//             '${'download_complete_file_saved_at'.tr} $relativePath',
+//             isError: false);
+//       } else {
+//         showCustomSnackBar('download_failed'.tr);
+//       }
+//     } catch (e) {
+//       showCustomSnackBar('download_failed'.tr);
+//     }
+//   }
 
   Future<void> downloadPdf(String url) async {
     try {
-      // Request storage permission
-      if (!await Permission.manageExternalStorage.isGranted) {
-        final status = await Permission.manageExternalStorage.request();
-
-        if (!status.isGranted) {
-          if (status.isPermanentlyDenied) {
-            openAppSettings();
-          } else {
-            showCustomSnackBar('permission_denied_cannot_download_the_file'.tr);
-          }
-          return;
-        }
-      }
-
-      var response = await http.get(Uri.parse(url));
-
-      if (response.statusCode == 200) {
-        Directory directory = await PdfDownloadHelper.getProjectDirectory(
-            Get.find<SplashController>().configModel?.businessName ??
-                AppConstants.appName);
-
-        String fileExtension = 'pdf';
-        String fileName = generateUniqueFileName(fileExtension);
-        String filePath = path.join(directory.path, fileName);
-
-        // Write the file to the directory
-        File file = File(filePath);
-        await file.writeAsBytes(response.bodyBytes);
-
-        String relativePath = file.path.replaceAll('/storage/emulated/0/', '');
-
+      final response = await http.get(Uri.parse(url));
+      if(response.statusCode==200){
+        await FileSaver.instance.saveAs(
+          name: generateUniqueFileName('pdf'), // Your unique name function
+          bytes: response.bodyBytes,
+          fileExtension: 'pdf',
+          mimeType: MimeType.pdf,
+        );
         showCustomSnackBar(
-            '${'download_complete_file_saved_at'.tr} $relativePath',
+            '${'download_complete_file_saved_at'.tr}',
             isError: false);
-      } else {
-        showCustomSnackBar('download_failed'.tr);
       }
-    } catch (e) {
-      showCustomSnackBar('download_failed'.tr);
+    }catch(e){
+     showCustomSnackBar('download_failed'.tr);
     }
-  }
 
+    }
   String generateUniqueFileName(String fileExtension) {
     String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
     return 'File_$timestamp.$fileExtension';

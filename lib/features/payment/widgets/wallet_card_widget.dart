@@ -154,7 +154,7 @@ class WithdrawButton extends StatelessWidget {
     return InkWell(
       onTap: () {
         if(paymentController.widthDrawMethods != null && paymentController.widthDrawMethods!.isNotEmpty) {
-          Get.bottomSheet(const WithdrawRequestBottomSheetWidget(), isScrollControlled: true);
+          Get.bottomSheet(  WithdrawRequestBottomSheetWidget(profileController:profileController ), isScrollControlled: true);
         }else {
           showCustomSnackBar('currently_no_bank_account_added'.tr);
         }

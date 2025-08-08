@@ -144,6 +144,8 @@ class PaymentController extends GetxController implements GetxService {
       getWithdrawList();
       Get.find<ProfileController>().getProfile();
       showCustomSnackBar('request_sent_successfully'.tr, isError: false);
+    }else{
+
     }
     _isLoading = false;
     update();

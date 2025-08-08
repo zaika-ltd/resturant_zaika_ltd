@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:file_saver/file_saver.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_snackbar_widget.dart';
@@ -270,35 +271,40 @@ class ReportController extends GetxController implements GetxService {
   Future<void> downloadPdf(String url, int orderId) async {
     try {
       // Request storage permission
-      if (!await Permission.manageExternalStorage.isGranted) {
-        final status = await Permission.manageExternalStorage.request();
-
-        if (!status.isGranted) {
-          if (status.isPermanentlyDenied) {
-            openAppSettings();
-          } else {
-            showCustomSnackBar('permission_denied_cannot_download_the_file'.tr);
-          }
-          return;
-        }
-      }
+      // if (!await Permission.manageExternalStorage.isGranted) {
+      //   final status = await Permission.manageExternalStorage.request();
+      //
+      //   if (!status.isGranted) {
+      //     if (status.isPermanentlyDenied) {
+      //       openAppSettings();
+      //     } else {
+      //       showCustomSnackBar('permission_denied_cannot_download_the_file'.tr);
+      //     }
+      //     return;
+      //   }
+      // }
 
 
 
         var response = await http.get(Uri.parse(url));
 
         if (response.statusCode == 200) {
-          Directory directory = await PdfDownloadHelper.getProjectDirectory(Get.find<SplashController>().configModel?.businessName ?? AppConstants.appName);
+          // Directory directory = await PdfDownloadHelper.getProjectDirectory(Get.find<SplashController>().configModel?.businessName ?? AppConstants.appName);
           String fileName = 'Report $orderId.pdf';
-          String filePath = '${directory.path}/$fileName';
+          // String filePath = '${directory.path}/$fileName';
+          //
+          // // Write the file to the directory
+          // File file = File(filePath);
+          // await file.writeAsBytes(response.bodyBytes);
 
-          // Write the file to the directory
-          File file = File(filePath);
-          await file.writeAsBytes(response.bodyBytes);
-
-          String relativePath = file.path.replaceAll('/storage/emulated/0/', '');
-
-          showCustomSnackBar('${'download_complete_file_saved_at'.tr} $relativePath', isError: false);
+          // String relativePath = file.path.replaceAll('/storage/emulated/0/', '');
+          await FileSaver.instance.saveAs(
+            name: fileName, // Your unique name function
+            bytes: response.bodyBytes,
+            fileExtension: 'pdf',
+            mimeType: MimeType.pdf,
+          );
+          showCustomSnackBar('${'download_complete_file_saved_at'.tr} $fileName', isError: false);
         } else {
           showCustomSnackBar('download_failed'.tr);
         }
