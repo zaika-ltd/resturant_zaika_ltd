@@ -19,22 +19,23 @@ class ReportsScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
-          child: Column(children: [
+          child: Column(children: <Widget>[
 
-            SubMenuCardWidget(title: 'expense_report'.tr, image: Images.expenseIcon, route: () => Get.toNamed(RouteHelper.getExpenseRoute())),
+            SubMenuCardWidget(title: 'Weekly Transaction Report', image: Images.transactionIcon, route: () => Get.toNamed(RouteHelper.getWeeklyTransactionReportRoute())),
             const SizedBox(height: Dimensions.paddingSizeLarge),
 
-            SubMenuCardWidget(title: 'transaction_report'.tr, image: Images.transactionIcon, route: () => Get.toNamed(RouteHelper.getTransactionReportRoute())),
-            const SizedBox(height: Dimensions.paddingSizeLarge),
-
-            SubMenuCardWidget(title: 'order_report'.tr, image: Images.orderIcon, route: () => Get.toNamed(RouteHelper.getOrderReportRoute())),
-            const SizedBox(height: Dimensions.paddingSizeLarge),
-
-            SubMenuCardWidget(title: 'food_report'.tr, image: Images.foodIcon, route: () => Get.toNamed(RouteHelper.getFoodReportRoute())),
-            const SizedBox(height: Dimensions.paddingSizeLarge),
-
-            SubMenuCardWidget(title: 'campaign_report'.tr, image: Images.campaignIcon, route: () => Get.toNamed(RouteHelper.getCampaignReportRoute())),
-
+         //  SubMenuCardWidget(title: 'expense_report'.tr, image: Images.expenseIcon, route: () => Get.toNamed(RouteHelper.getExpenseRoute())),
+         // const SizedBox(height: Dimensions.paddingSizeLarge),
+         //
+         //  SubMenuCardWidget(title: 'transaction_report'.tr, image: Images.transactionIcon, route: () => Get.toNamed(RouteHelper.getTransactionReportRoute())),
+         //   const SizedBox(height: Dimensions.paddingSizeLarge),
+         //    SubMenuCardWidget(title: 'order_report'.tr, image: Images.orderIcon, route: () => Get.toNamed(RouteHelper.getOrderReportRoute())),
+         //    const SizedBox(height: Dimensions.paddingSizeLarge),
+         //
+         //    SubMenuCardWidget(title: 'food_report'.tr, image: Images.foodIcon, route: () => Get.toNamed(RouteHelper.getFoodReportRoute())),
+         //    const SizedBox(height: Dimensions.paddingSizeLarge),
+         //
+         //    SubMenuCardWidget(title: 'campaign_report'.tr, image: Images.campaignIcon, route: () => Get.toNamed(RouteHelper.getCampaignReportRoute())),
           ]),
         ),
       )

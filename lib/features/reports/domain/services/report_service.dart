@@ -3,6 +3,8 @@ import 'package:stackfood_multivendor_restaurant/features/reports/domain/models/
 import 'package:stackfood_multivendor_restaurant/features/reports/domain/repositories/report_repository_interface.dart';
 import 'package:stackfood_multivendor_restaurant/features/reports/domain/services/report_service_interface.dart';
 
+import '../models/report_date_wise.dart';
+
 class ReportService implements ReportServiceInterface {
   final ReportRepositoryInterface reportRepositoryInterface;
   ReportService({required this.reportRepositoryInterface});
@@ -10,6 +12,10 @@ class ReportService implements ReportServiceInterface {
   @override
   Future<TransactionReportModel?> getTransactionReportList({required int offset, required String? from, required String? to}) async {
     return await reportRepositoryInterface.getTransactionReportList(offset: offset, from: from, to: to);
+  }
+  @override
+  Future<TransactionSummaryModel?> getTransactionReportDateWise({required String? from, required String? to}) async {
+    return await reportRepositoryInterface.getTransactionReportDateWise( from: from, to: to);
   }
 
   @override

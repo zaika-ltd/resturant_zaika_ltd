@@ -17,7 +17,7 @@ class MenuScreen extends StatelessWidget {
 
       MenuModel(icon: '', title: 'profile'.tr, route: RouteHelper.getProfileRoute()),
 
-      MenuModel(
+     if(Get.find<ProfileController>().profileModel != null) MenuModel(
         icon: Images.addFood, title: 'add_food'.tr, route: RouteHelper.getAddProductRoute(null),
         isBlocked: !Get.find<ProfileController>().profileModel!.restaurants![0].foodSection!,
       ),
@@ -41,7 +41,7 @@ class MenuScreen extends StatelessWidget {
 
       MenuModel(icon: Images.language, title: 'language'.tr, route: '', isLanguage: true),
 
-      MenuModel(
+     if(Get.find<ProfileController>().profileModel != null) MenuModel(
         icon: Images.chat, title: 'conversation'.tr, route: RouteHelper.getConversationListRoute(),
         isNotSubscribe: (Get.find<ProfileController>().profileModel!.restaurants![0].restaurantModel == 'subscription'
             && Get.find<ProfileController>().profileModel!.subscription != null && Get.find<ProfileController>().profileModel!.subscription!.chat == 0) ,
@@ -57,6 +57,7 @@ class MenuScreen extends StatelessWidget {
 
     menuList.insert(10, MenuModel(icon: Images.subscription, iconColor: Colors.white, title: 'my_business_plan'.tr, route: RouteHelper.getMySubscriptionRoute()));
 
+  if(Get.find<ProfileController>().profileModel != null)
     if(Get.find<ProfileController>().profileModel!.restaurants![0].selfDeliverySystem == 1) {
       menuList.insert(5, MenuModel(
         icon: Images.deliveryMan, iconColor: Colors.white, title: 'delivery_man'.tr, route: RouteHelper.getDeliveryManRoute(),

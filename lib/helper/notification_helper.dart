@@ -158,8 +158,8 @@ class NotificationHelper {
 
   static Future<void> showTextNotification(String title, String body, NotificationBodyModel? notificationBody, FlutterLocalNotificationsPlugin fln) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'stackfood', 'stackfood', playSound: true,
-      importance: Importance.max, priority: Priority.high, sound: RawResourceAndroidNotificationSound('notification'),
+      'zaika_vendor', 'zaika_vendor', playSound: true,
+      importance: Importance.high, priority: Priority.high, sound: RawResourceAndroidNotificationSound('notification'),
     );
     const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
     await fln.show(DateTime.now().millisecondsSinceEpoch % 100000, title, body, platformChannelSpecifics, payload: notificationBody != null ? jsonEncode(notificationBody.toJson()) : null);
@@ -171,7 +171,7 @@ class NotificationHelper {
       contentTitle: title, htmlFormatContentTitle: true,
     );
     AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'stackfood', 'stackfood', importance: Importance.max,
+      'zaika_vendor', 'zaika_vendor', importance: Importance.high,
       styleInformation: bigTextStyleInformation, priority: Priority.high, playSound: true,
       sound: const RawResourceAndroidNotificationSound('notification'),
     );
@@ -188,9 +188,9 @@ class NotificationHelper {
       summaryText: body, htmlFormatSummaryText: true,
     );
     final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'stackfood', 'stackfood',
+      'zaika_vendor', 'zaika_vendor',
       largeIcon: FilePathAndroidBitmap(largeIconPath), priority: Priority.high, playSound: true,
-      styleInformation: bigPictureStyleInformation, importance: Importance.max,
+      styleInformation: bigPictureStyleInformation, importance: Importance.high,
       sound: const RawResourceAndroidNotificationSound('notification'),
     );
     final NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);

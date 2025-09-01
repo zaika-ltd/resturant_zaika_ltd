@@ -123,10 +123,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Row(children: [
 
-                    Expanded(child: Text(
-                      'restaurant_temporarily_closed'.tr, style: robotoMedium,
+                    profileController.profileModel != null?   Expanded(child: Text(
+                      'Restaurant ${profileController.profileModel!.restaurants![0].active??false?'Opened' :'Closed'} ', style: robotoMedium,
                       maxLines: 1, overflow: TextOverflow.ellipsis,
-                    )),
+                    )):SizedBox(),
 
                     profileController.profileModel != null ? Transform.scale(
                       scale: 0.8,

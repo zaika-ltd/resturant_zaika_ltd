@@ -1,7 +1,7 @@
 name: stackfood_multivendor_restaurant
 description: An application for multivendor ecommerce restaurant.
 publish_to: 'none'
-version: 1.0.2+10
+version: 1.0.4+12
 
 environment:
   sdk: ^3.5.0
@@ -60,6 +60,7 @@ dependencies:
   pdf: ^3.11.1
   file_saver: ^0.3.1
   in_app_update: ^4.2.3
+  open_file: ^3.5.10
 
 dependency_overrides:
   collection: ^1.19.0

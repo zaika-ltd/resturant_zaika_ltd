@@ -12,6 +12,8 @@ import 'package:get/get.dart';
 import 'package:stackfood_multivendor_restaurant/helper/pdf_download_helper.dart';
 import 'package:stackfood_multivendor_restaurant/util/app_constants.dart';
 
+import '../domain/models/report_date_wise.dart';
+
 class ReportController extends GetxController implements GetxService {
   final ReportServiceInterface reportServiceInterface;
   ReportController({required this.reportServiceInterface});
@@ -30,15 +32,24 @@ class ReportController extends GetxController implements GetxService {
   double? _onHold;
   double? get onHold => _onHold;
 
+  int? _onHoldDateWise;
+  int? get onHoldDateWise => _onHoldDateWise;
+
   double? _canceled;
   double? get canceled => _canceled;
 
+  int? _canceledDateWise;
+  int? get canceledDateWise => _canceledDateWise;
   double? _completedTransactions;
   double? get completedTransactions => _completedTransactions;
 
+  int? _completedTransactionsDateWise;
+  int? get completedTransactionsDateWise => _completedTransactionsDateWise;
+
   List<OrderTransactions>? _orderTransactions;
   List<OrderTransactions>? get orderTransactions => _orderTransactions;
-
+  ReportSummary? _reportSummary;
+  ReportSummary? get reportSummary => _reportSummary;
   late DateTimeRange _selectedDateRange;
 
   String? _from;
@@ -74,17 +85,14 @@ class ReportController extends GetxController implements GetxService {
   }
 
   Future<void> getTransactionReportList({required String offset, required String? from, required String? to}) async {
-
     if (offset == '1') {
       _offsetList = [];
       _offset = 1;
       _orderTransactions = null;
       update();
     }
-
     if (!_offsetList.contains(offset)) {
       _offsetList.add(offset);
-
       TransactionReportModel? transactionReport = await reportServiceInterface.getTransactionReportList(offset: int.parse(offset), from: from, to: to);
       if (transactionReport != null) {
         TransactionReportModel transactionReportModel = transactionReport;
@@ -106,7 +114,23 @@ class ReportController extends GetxController implements GetxService {
       }
     }
   }
+  Future<void> getTransactionReportDateWise({ required String? from, required String? to}) async {
 
+      _orderTransactions = null;
+
+      TransactionSummaryModel? transactionReport = await reportServiceInterface.getTransactionReportDateWise(from: from, to: to);
+      if (transactionReport != null) {
+        TransactionSummaryModel transactionReportModel = transactionReport;
+        _onHoldDateWise = transactionReportModel.onHold;
+        _canceledDateWise = transactionReportModel.canceled;
+        _completedTransactionsDateWise = transactionReportModel.completedTransactions;
+        _reportSummary =transactionReportModel.summary;
+
+        _isLoading = false;
+        update();
+      }
+
+  }
   Future<void> getOrderReportList({required String offset, required String? from, required String? to}) async {
 
     if (offset == '1') {
@@ -235,7 +259,7 @@ class ReportController extends GetxController implements GetxService {
     update();
   }
 
-  void showDatePicker(BuildContext context, {bool transaction = false, bool order = false, bool campaign = false}) async {
+  void showDatePicker(BuildContext context, {bool transactionDateWise = false,bool transaction = false, bool order = false, bool campaign = false}) async {
     final DateTimeRange? result = await showDateRangePicker(
       context: context,
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
@@ -255,6 +279,9 @@ class ReportController extends GetxController implements GetxService {
       _from = _selectedDateRange.start.toString().split(' ')[0];
       _to = _selectedDateRange.end.toString().split(' ')[0];
       update();
+      if(transactionDateWise){
+        getTransactionReportDateWise( from: _from, to: _to);
+      }
       if(transaction){
         getTransactionReportList(offset: '1', from: _from, to: _to);
       }

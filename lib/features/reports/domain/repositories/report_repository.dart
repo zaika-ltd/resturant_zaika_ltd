@@ -4,6 +4,8 @@ import 'package:stackfood_multivendor_restaurant/features/reports/domain/reposit
 import 'package:stackfood_multivendor_restaurant/util/app_constants.dart';
 import 'package:get/get.dart';
 
+import '../models/report_date_wise.dart';
+
 class ReportRepository implements ReportRepositoryInterface {
   final ApiClient apiClient;
   ReportRepository({required this.apiClient});
@@ -14,6 +16,15 @@ class ReportRepository implements ReportRepositoryInterface {
     Response response = await apiClient.getData('${AppConstants.transactionReportUri}?limit=10&offset=$offset&filter=custom&from=$from&to=$to');
     if(response.statusCode == 200) {
       transactionReportModel = TransactionReportModel.fromJson(response.body);
+    }
+    return transactionReportModel;
+  }
+  @override
+  Future<TransactionSummaryModel?> getTransactionReportDateWise({required String? from, required String? to}) async {
+    TransactionSummaryModel? transactionReportModel;
+    Response response = await apiClient.getData('${AppConstants.transactionReportDateWiseUri}?limit=10&offset=1&filter=custom&from=$from&to=$to');
+    if(response.statusCode == 200) {
+      transactionReportModel = TransactionSummaryModel.fromJson(response.body);
     }
     return transactionReportModel;
   }

@@ -63,6 +63,8 @@ import 'package:stackfood_multivendor_restaurant/features/subscription/screens/m
 import 'package:stackfood_multivendor_restaurant/features/update/screens/update_screen.dart';
 import 'package:get/get.dart';
 
+import '../features/reports/screens/weeklyTransaction/screens/transaction_report_screen.dart';
+
 class RouteHelper {
   static const String initial = '/';
   static const String splash = '/splash';
@@ -104,7 +106,10 @@ class RouteHelper {
   static const String success = '/success';
   static const String announcement = '/announcement';
   static const String transactionReport = '/transaction-report';
+  static const String weeklyTransactionReport = '/weekly-transaction-report';
+
   static const String orderReport = '/order-report';
+
   static const String foodReport = '/food-report';
   static const String campaignReport = '/campaign-report';
   static const String disbursement = '/disbursement';
@@ -223,6 +228,7 @@ class RouteHelper {
     return '$announcement?announcement_status=$announcementStatus&announcement_message=$announcementMessage';
   }
   static String getTransactionReportRoute() => transactionReport;
+  static String getWeeklyTransactionReportRoute() => weeklyTransactionReport;
   static String getOrderReportRoute() => orderReport;
   static String getFoodReportRoute() => foodReport;
   static String getCampaignReportRoute() => campaignReport;
@@ -360,6 +366,7 @@ class RouteHelper {
       announcementStatus: int.parse(Get.parameters['announcement_status']!), announcementMessage: Get.parameters['announcement_message']!,
     )),
     GetPage(name: transactionReport, page: () => const TransactionReportScreen()),
+    GetPage(name: weeklyTransactionReport, page: () =>   WeeklyTransactionReportScreen()),
     GetPage(name: orderReport, page: () => const OrderReportScreen()),
     GetPage(name: foodReport, page: () => const FoodReportScreen()),
     GetPage(name: campaignReport, page: () => const CampaignReportScreen()),

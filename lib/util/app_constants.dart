@@ -81,6 +81,8 @@ class AppConstants {
   static const String deliverymanListUri = '/api/v1/vendor/delivery-man/get-delivery-man-list';
   static const String assignDeliverymanUri = '/api/v1/vendor/delivery-man/assign-deliveryman';
   static const String transactionReportUri = '/api/v1/vendor/get-transaction-report';
+  static const String transactionReportDateWiseUri = '/api/v1/vendor/get-transaction-report-date-wise';
+
   static const String orderReportUri = '/api/v1/vendor/get-order-report';
   static const String campaignReportUri = '/api/v1/vendor/get-campaign-order-report';
   static const String foodReportUri = '/api/v1/vendor/get-food-wise-report';
