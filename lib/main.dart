@@ -54,7 +54,9 @@ Future<void> main() async {
       await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
-  }catch(_) {}
+  }catch(e) {
+    debugPrint("Notification issue ${e}");
+  }
 
   runApp(MyApp(languages: languages, body: body));
 }

@@ -71,9 +71,9 @@ class SplashScreenState extends State<SplashScreen> {
     } catch (e) {
 
       if (mounted) { // Check if the widget is still in the tree
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(content: Text("Unable to download updated version $e")),
-        // );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Unable to download updated version $e")),
+        );
       }
     }
   }

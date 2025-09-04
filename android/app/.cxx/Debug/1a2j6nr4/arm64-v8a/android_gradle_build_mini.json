@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/lalitgovindjadhav/Downloads/zaika_apps/Flutter 3.29.3/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/lalitgovindjadhav/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/lalitgovindjadhav/Downloads/zaika_apps/resturant_zaika_ltd/android/app/.cxx/Debug/1a2j6nr4/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/lalitgovindjadhav/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/lalitgovindjadhav/Downloads/zaika_apps/resturant_zaika_ltd/android/app/.cxx/Debug/1a2j6nr4/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

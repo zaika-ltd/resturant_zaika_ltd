@@ -1,0 +1,2 @@
+/Users/lalitgovindjadhav/Downloads/zaika_apps/resturant_zaika_ltd/android/app/.cxx/Debug/1a2j6nr4/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/lalitgovindjadhav/Downloads/zaika_apps/resturant_zaika_ltd/android/app/.cxx/Debug/1a2j6nr4/armeabi-v7a/CMakeFiles/rebuild_cache.dir
