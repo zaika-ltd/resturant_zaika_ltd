@@ -156,7 +156,7 @@ class SliderButtonWidgetState extends State<SliderButtonWidget> {
 
           widget.action();
           if (widget.vibrationFlag &&
-              (await Vibration.hasVibrator())!) {
+              (await Vibration.hasVibrator())) {
             try {
               Vibration.vibrate(duration: 200);
             } catch (_) {}

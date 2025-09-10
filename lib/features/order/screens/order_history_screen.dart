@@ -16,45 +16,57 @@ class OrderHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Get.find<OrderController>().getPaginatedOrders(1, true);
 
     return Scaffold(
-
-      appBar: CustomAppBarWidget(title: 'order_history'.tr, isBackButtonExist: false),
-
+      appBar: CustomAppBarWidget(
+          title: 'order_history'.tr, isBackButtonExist: false),
       body: GetBuilder<OrderController>(builder: (orderController) {
         return Padding(
           padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
           child: Column(children: [
-
             GetBuilder<ProfileController>(builder: (profileController) {
-              return profileController.profileModel != null ? Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                  border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.5)),
-                ),
-                child: Row(children: [
-
-                  CountWidget(title: 'today'.tr, count: profileController.profileModel!.todaysOrderCount),
-
-                  CountWidget(title: 'this_week'.tr, count: profileController.profileModel!.thisWeekOrderCount),
-
-                  CountWidget(title: 'this_month'.tr, count: profileController.profileModel!.thisMonthOrderCount),
-
-                ]),
-              ) : const SizedBox();
+              return profileController.profileModel != null
+                  ? Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .primaryColor
+                            .withValues(alpha: 0.2),
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.radiusDefault),
+                        border: Border.all(
+                            color: Theme.of(context)
+                                .primaryColor
+                                .withValues(alpha: 0.5)),
+                      ),
+                      child: Row(children: [
+                        CountWidget(
+                            title: 'today'.tr,
+                            count: profileController
+                                .profileModel!.todaysOrderCount),
+                        CountWidget(
+                            title: 'this_week'.tr,
+                            count: profileController
+                                .profileModel!.thisWeekOrderCount),
+                        CountWidget(
+                            title: 'this_month'.tr,
+                            count: profileController
+                                .profileModel!.thisMonthOrderCount),
+                      ]),
+                    )
+                  : const SizedBox();
             }),
             const SizedBox(height: Dimensions.paddingSizeLarge),
-
             Expanded(
               child: Container(
                 constraints: BoxConstraints(minHeight: context.height * 0.4),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                   color: Theme.of(context).cardColor,
-                  boxShadow: const [BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 5)],
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.black12, spreadRadius: 0, blurRadius: 5)
+                  ],
                 ),
                 padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                 child: Column(children: [
@@ -65,29 +77,40 @@ class OrderHistoryScreen extends StatelessWidget {
                       itemCount: orderController.statusList.length,
                       itemBuilder: (context, index) {
                         return OrderButtonWidget(
-                          title: orderController.statusList[index].tr, index: index, orderController: orderController, fromHistory: true,
+                          title: orderController.statusList[index].tr,
+                          index: index,
+                          orderController: orderController,
+                          fromHistory: true,
                         );
                       },
                     ),
                   ),
-
                   const Divider(height: Dimensions.paddingSizeOverLarge),
-
-                  Expanded(child:orderController.historyOrderList != null ? orderController.historyOrderList!.isNotEmpty
-                      ? const OrderViewWidget()
-                      : Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        const CustomAssetImageWidget(image: Images.noOrderIcon, height: 50, width: 50),
-                        const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                        Text('${'no_order_yet'.tr}!', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).disabledColor)),
-                  ])) : const Center(child: CircularProgressIndicator()),
+                  Expanded(
+                    child: orderController.historyOrderList != null
+                        ? orderController.historyOrderList!.isNotEmpty
+                            ? const OrderViewWidget()
+                            : Center(
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                    const CustomAssetImageWidget(
+                                        image: Images.noOrderIcon,
+                                        height: 50,
+                                        width: 50),
+                                    const SizedBox(
+                                        height: Dimensions.paddingSizeDefault),
+                                    Text('${'no_order_yet'.tr}!',
+                                        style: robotoMedium.copyWith(
+                                            fontSize: Dimensions.fontSizeLarge,
+                                            color: Theme.of(context)
+                                                .disabledColor)),
+                                  ]))
+                        : const Center(child: CircularProgressIndicator()),
                   )
-
-
                 ]),
               ),
             ),
-
           ]),
         );
       }),

@@ -16,7 +16,6 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-
   @override
   void initState() {
     Get.find<CategoryController>().getCategoryList(null);
@@ -26,110 +25,211 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       appBar: CustomAppBarWidget(title: 'categories'.tr),
-
       body: GetBuilder<CategoryController>(builder: (categoryController) {
-
         List<CategoryModel>? categories;
 
-        if(categoryController.categoryList != null) {
+        if (categoryController.categoryList != null) {
           categories = [];
           categories.addAll(categoryController.categoryList!);
         }
 
-        return categories != null ? categories.isNotEmpty ? RefreshIndicator(
-          onRefresh: () async {
-            await Get.find<CategoryController>().getCategoryList(null);
-          },
-          child: ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-            itemCount: categories.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                    boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), spreadRadius: 0, blurRadius: 5)],
-                    border: Border.all(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.08)),
-                  ),
-                  child: Theme(
-                    data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                    child: ExpansionTile(
-                      tilePadding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault, top: Dimensions.paddingSizeExtraSmall, bottom: Dimensions.paddingSizeExtraSmall),
-                      leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                        child: CustomImageWidget(
-                          image: '${categories![index].imageFullUrl}',
-                          height: 60, width: 65, fit: BoxFit.cover,
-                        ),
-                      ),
-                      title: Text(categories[index].name!, style: robotoMedium),
-                      subtitle: Text(
-                        categories[index].productsCount! > 0 ? '${categories[index].productsCount} ${'foods_are_available'.tr}' : 'no_food_available'.tr,
-                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
-                      ),
-
-                      trailing: SizedBox(
-                        width: 25,
-                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                          categories[index].childesCount! > 0 ? Icon(categoryController.selectedCategoryIndex == index && categoryController.isExpanded  ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, size: 24, color: Theme.of(context).textTheme.bodyLarge!.color) : const SizedBox(),
-                        ]),
-                      ),
-
-                      onExpansionChanged: (value) {
-                        categoryController.expandedUpdate(value);
-                        categoryController.setSelectedCategoryIndex(index);
-                      },
-
-                      children: [
-                        categories[index].childes!.isNotEmpty ? Container(
-                          margin: const EdgeInsets.only(left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault, bottom: Dimensions.paddingSizeDefault, top: Dimensions.paddingSizeExtraSmall),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor.withOpacity(0.05),
-                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                          ),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                            itemCount: categories[index].childes?.length,
-                            itemBuilder: (context, subIndex) {
-                              return Column(
+        return categories != null
+            ? categories.isNotEmpty
+                ? RefreshIndicator(
+                    onRefresh: () async {
+                      await Get.find<CategoryController>()
+                          .getCategoryList(null);
+                    },
+                    child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics()),
+                      padding:
+                          const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                      itemCount: categories.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: Dimensions.paddingSizeSmall),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(
+                                  Dimensions.radiusDefault),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Theme.of(context)
+                                        .primaryColor
+                                        .withValues(alpha: 0.05),
+                                    spreadRadius: 0,
+                                    blurRadius: 5)
+                              ],
+                              border: Border.all(
+                                  width: 1,
+                                  color: Theme.of(context)
+                                      .primaryColor
+                                      .withValues(alpha: 0.08)),
+                            ),
+                            child: Theme(
+                              data: Theme.of(context)
+                                  .copyWith(dividerColor: Colors.transparent),
+                              child: ExpansionTile(
+                                tilePadding: const EdgeInsets.only(
+                                    left: Dimensions.paddingSizeDefault,
+                                    right: Dimensions.paddingSizeDefault,
+                                    top: Dimensions.paddingSizeExtraSmall,
+                                    bottom: Dimensions.paddingSizeExtraSmall),
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radiusSmall),
+                                  child: CustomImageWidget(
+                                    image: '${categories![index].imageFullUrl}',
+                                    height: 60,
+                                    width: 65,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                title: Text(categories[index].name!,
+                                    style: robotoMedium),
+                                subtitle: Text(
+                                  categories[index].productsCount! > 0
+                                      ? '${categories[index].productsCount} ${'foods_are_available'.tr}'
+                                      : 'no_food_available'.tr,
+                                  style: robotoRegular.copyWith(
+                                      fontSize: Dimensions.fontSizeSmall,
+                                      color: Theme.of(context).disabledColor),
+                                ),
+                                trailing: SizedBox(
+                                  width: 25,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        categories[index].childesCount! > 0
+                                            ? Icon(
+                                                categoryController
+                                                                .selectedCategoryIndex ==
+                                                            index &&
+                                                        categoryController
+                                                            .isExpanded
+                                                    ? Icons.keyboard_arrow_up
+                                                    : Icons.keyboard_arrow_down,
+                                                size: 24,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge!
+                                                    .color)
+                                            : const SizedBox(),
+                                      ]),
+                                ),
+                                onExpansionChanged: (value) {
+                                  categoryController.expandedUpdate(value);
+                                  categoryController
+                                      .setSelectedCategoryIndex(index);
+                                },
                                 children: [
-                                  Row(children: [
-                                    Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-                                      Text(categories?[index].childes![subIndex].name ?? '', style: robotoMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
-                                      const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-
-                                      Text(
-                                        categories![index].childes![subIndex].productsCount! > 0 ? '${categories[index].childes![subIndex].productsCount} ${'foods_are_available'.tr}' : 'no_food_available'.tr,
-                                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
-                                      ),
-
-                                    ])),
-                                  ]),
-
-                                  subIndex != categories[index].childes!.length - 1 ? Divider(color: Theme.of(context).disabledColor.withOpacity(0.5), height: 20,) : const SizedBox(),
+                                  categories[index].childes!.isNotEmpty
+                                      ? Container(
+                                          margin: const EdgeInsets.only(
+                                              left:
+                                                  Dimensions.paddingSizeDefault,
+                                              right:
+                                                  Dimensions.paddingSizeDefault,
+                                              bottom:
+                                                  Dimensions.paddingSizeDefault,
+                                              top: Dimensions
+                                                  .paddingSizeExtraSmall),
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .primaryColor
+                                                .withValues(alpha: 0.05),
+                                            borderRadius: BorderRadius.circular(
+                                                Dimensions.radiusDefault),
+                                          ),
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            padding: const EdgeInsets.all(
+                                                Dimensions.paddingSizeDefault),
+                                            itemCount: categories[index]
+                                                .childes
+                                                ?.length,
+                                            itemBuilder: (context, subIndex) {
+                                              return Column(
+                                                children: [
+                                                  Row(children: [
+                                                    Expanded(
+                                                        child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                          Text(
+                                                              categories?[index]
+                                                                      .childes![
+                                                                          subIndex]
+                                                                      .name ??
+                                                                  '',
+                                                              style:
+                                                                  robotoMedium,
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis),
+                                                          const SizedBox(
+                                                              height: Dimensions
+                                                                  .paddingSizeExtraSmall),
+                                                          Text(
+                                                            categories![index]
+                                                                        .childes![
+                                                                            subIndex]
+                                                                        .productsCount! >
+                                                                    0
+                                                                ? '${categories[index].childes![subIndex].productsCount} ${'foods_are_available'.tr}'
+                                                                : 'no_food_available'
+                                                                    .tr,
+                                                            style: robotoRegular.copyWith(
+                                                                fontSize: Dimensions
+                                                                    .fontSizeSmall,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .disabledColor),
+                                                          ),
+                                                        ])),
+                                                  ]),
+                                                  subIndex !=
+                                                          categories[index]
+                                                                  .childes!
+                                                                  .length -
+                                                              1
+                                                      ? Divider(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .disabledColor
+                                                                  .withValues(
+                                                                      alpha:
+                                                                          0.5),
+                                                          height: 20,
+                                                        )
+                                                      : const SizedBox(),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                        )
+                                      : const SizedBox(),
                                 ],
-                              );
-                            },
+                              ),
+                            ),
                           ),
-                        ) : const SizedBox(),
-                      ],
+                        );
+                      },
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ) : Center(child: Text('no_category_found'.tr)) : const Center(child: CircularProgressIndicator());
+                  )
+                : Center(child: Text('no_category_found'.tr))
+            : const Center(child: CircularProgressIndicator());
       }),
     );
   }

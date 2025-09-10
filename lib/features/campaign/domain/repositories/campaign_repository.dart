@@ -23,38 +23,35 @@ class CampaignRepository implements CampaignRepositoryInterface {
 
   @override
   Future<bool> joinCampaign(int? campaignID) async {
-    Response response = await apiClient.putData(AppConstants.joinCampaignUri, {'campaign_id': campaignID});
+    Response response = await apiClient
+        .putData(AppConstants.joinCampaignUri, {'campaign_id': campaignID});
     return (response.statusCode == 200);
   }
 
   @override
   Future<bool> leaveCampaign(int? campaignID) async {
-    Response response = await apiClient.putData(AppConstants.leaveCampaignUri, {'campaign_id': campaignID});
+    Response response = await apiClient
+        .putData(AppConstants.leaveCampaignUri, {'campaign_id': campaignID});
     return (response.statusCode == 200);
   }
 
   @override
   Future add(value) {
-    // TODO: implement add
     throw UnimplementedError();
   }
 
   @override
   Future delete({int? id}) {
-    // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
   Future get(int id) {
-    // TODO: implement get
     throw UnimplementedError();
   }
 
   @override
   Future update(Map<String, dynamic> body) {
-    // TODO: implement update
     throw UnimplementedError();
   }
-
 }

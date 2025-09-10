@@ -1,12 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:io';
 import 'package:stackfood_multivendor_restaurant/common/widgets/custom_toast.dart';
-import 'package:stackfood_multivendor_restaurant/helper/pdf_download_helper.dart';
 // Future<void> capturedImageToPdf({
 //   Uint8List? capturedImage,
 //   required String businessName,
@@ -66,9 +62,7 @@ import 'package:stackfood_multivendor_restaurant/helper/pdf_download_helper.dart
 // }
 //
 
-import 'dart:typed_data';
 import 'package:file_saver/file_saver.dart'; // Import the package
-import 'package:pdf/widgets.dart' as pw;
 // Make sure you have your other necessary imports like flutter/material.dart, get/get.dart, etc.
 
 Future<void> capturedImageToPdf({

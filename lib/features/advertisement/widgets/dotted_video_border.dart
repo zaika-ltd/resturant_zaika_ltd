@@ -52,7 +52,7 @@ class DottedVideoBorder extends StatelessWidget {
                           .textTheme
                           .bodyLarge!
                           .color!
-                          .withOpacity(0.6),
+                          .withValues(alpha: 0.6),
                 ),
               ),
             ],

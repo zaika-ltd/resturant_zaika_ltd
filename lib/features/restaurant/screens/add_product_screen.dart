@@ -373,7 +373,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                         border: Border.all(
                                             color: Theme.of(context)
                                                 .disabledColor
-                                                .withOpacity(0.5),
+                                                .withValues(alpha: 0.5),
                                             width: 1),
                                       ),
                                       child: DropdownButton<int>(
@@ -435,7 +435,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                     //   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                     //   decoration: BoxDecoration(
                                     //     borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                    //     border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.5), width: 1),
+                                    //     border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha:0.5), width: 1),
                                     //   ),
                                     //   child: DropdownButton<int>(
                                     //     icon: Icon(Icons.keyboard_arrow_down, color: Theme.of(context).disabledColor),
@@ -579,15 +579,17 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                             color: Theme.of(
                                                                     context)
                                                                 .disabledColor
-                                                                .withOpacity(
-                                                                    0.8)),
+                                                                .withValues(
+                                                                    alpha:
+                                                                        0.8)),
                                                     hintStyle:
                                                         robotoRegular.copyWith(
                                                             color: Theme.of(
                                                                     context)
                                                                 .disabledColor
-                                                                .withOpacity(
-                                                                    0.8)),
+                                                                .withValues(
+                                                                    alpha:
+                                                                        0.8)),
                                                     enabledBorder:
                                                         OutlineInputBorder(
                                                       borderRadius: BorderRadius
@@ -706,7 +708,8 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                     decoration: BoxDecoration(
                                                       color: Theme.of(context)
                                                           .disabledColor
-                                                          .withOpacity(0.2),
+                                                          .withValues(
+                                                              alpha: 0.2),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               Dimensions
@@ -717,12 +720,12 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                         restController
                                                                 .selectedNutritionList![
                                                             index]!,
-                                                        style: robotoRegular
-                                                            .copyWith(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .disabledColor
-                                                                    .withOpacity(
+                                                        style: robotoRegular.copyWith(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .disabledColor
+                                                                .withValues(
+                                                                    alpha:
                                                                         0.7)),
                                                       ),
                                                       InkWell(
@@ -740,8 +743,9 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                               color: Theme.of(
                                                                       context)
                                                                   .disabledColor
-                                                                  .withOpacity(
-                                                                      0.7)),
+                                                                  .withValues(
+                                                                      alpha:
+                                                                          0.7)),
                                                         ),
                                                       ),
                                                     ]),
@@ -893,15 +897,17 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                             color: Theme.of(
                                                                     context)
                                                                 .disabledColor
-                                                                .withOpacity(
-                                                                    0.8)),
+                                                                .withValues(
+                                                                    alpha:
+                                                                        0.8)),
                                                     labelStyle:
                                                         robotoRegular.copyWith(
                                                             color: Theme.of(
                                                                     context)
                                                                 .disabledColor
-                                                                .withOpacity(
-                                                                    0.8)),
+                                                                .withValues(
+                                                                    alpha:
+                                                                        0.8)),
                                                     enabledBorder:
                                                         OutlineInputBorder(
                                                       borderRadius: BorderRadius
@@ -1022,7 +1028,8 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                     decoration: BoxDecoration(
                                                       color: Theme.of(context)
                                                           .disabledColor
-                                                          .withOpacity(0.2),
+                                                          .withValues(
+                                                              alpha: 0.2),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               Dimensions
@@ -1033,12 +1040,12 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                         restController
                                                                 .selectedAllergicIngredientsList![
                                                             index]!,
-                                                        style: robotoRegular
-                                                            .copyWith(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .disabledColor
-                                                                    .withOpacity(
+                                                        style: robotoRegular.copyWith(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .disabledColor
+                                                                .withValues(
+                                                                    alpha:
                                                                         0.7)),
                                                       ),
                                                       InkWell(
@@ -1055,8 +1062,9 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                               color: Theme.of(
                                                                       context)
                                                                   .disabledColor
-                                                                  .withOpacity(
-                                                                      0.7)),
+                                                                  .withValues(
+                                                                      alpha:
+                                                                          0.7)),
                                                         ),
                                                       ),
                                                     ]),
@@ -1116,7 +1124,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                 ? Theme.of(context).primaryColor
                                                 : Theme.of(context)
                                                     .disabledColor
-                                                    .withOpacity(0.6)),
+                                                    .withValues(alpha: 0.6)),
                                       )),
                                       Expanded(
                                           child: RadioListTile<String>(
@@ -1145,7 +1153,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                 ? Theme.of(context).primaryColor
                                                 : Theme.of(context)
                                                     .disabledColor
-                                                    .withOpacity(0.6)),
+                                                    .withValues(alpha: 0.6)),
                                         visualDensity: const VisualDensity(
                                             horizontal:
                                                 VisualDensity.minimumDensity,
@@ -1237,7 +1245,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                               borderSide: BorderSide(
                                                   color: Theme.of(context)
                                                       .disabledColor
-                                                      .withOpacity(0.5)),
+                                                      .withValues(alpha: 0.5)),
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius:
@@ -1246,7 +1254,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                               borderSide: BorderSide(
                                                   color: Theme.of(context)
                                                       .disabledColor
-                                                      .withOpacity(0.5)),
+                                                      .withValues(alpha: 0.5)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
@@ -1255,7 +1263,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                               borderSide: BorderSide(
                                                   color: Theme.of(context)
                                                       .disabledColor
-                                                      .withOpacity(0.5)),
+                                                      .withValues(alpha: 0.5)),
                                             ),
                                           ),
                                         ),
@@ -1333,7 +1341,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                         decoration: BoxDecoration(
                                           color: Theme.of(context)
                                               .disabledColor
-                                              .withOpacity(0.2),
+                                              .withValues(alpha: 0.2),
                                           borderRadius: BorderRadius.circular(
                                               Dimensions.radiusSmall),
                                         ),
@@ -1499,7 +1507,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                             border: Border.all(
                                                 color: Theme.of(context)
                                                     .disabledColor
-                                                    .withOpacity(0.5),
+                                                    .withValues(alpha: 0.5),
                                                 width: 1),
                                           ),
                                           child: SizedBox(
@@ -1680,7 +1688,8 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                   decoration: BoxDecoration(
                                                       color: Theme.of(context)
                                                           .disabledColor
-                                                          .withOpacity(0.2),
+                                                          .withValues(
+                                                              alpha: 0.2),
                                                       borderRadius: BorderRadius
                                                           .circular(Dimensions
                                                               .radiusSmall)),
@@ -1788,8 +1797,8 @@ class _AddProductScreenState extends State<AddProductScreen>
                                                                       color: Theme.of(
                                                                               context)
                                                                           .disabledColor
-                                                                          .withOpacity(
-                                                                              0.5),
+                                                                          .withValues(
+                                                                              alpha: 0.5),
                                                                       size: 38),
                                                                   const SizedBox(
                                                                       height: Dimensions
@@ -1879,7 +1888,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                     style: robotoRegular.copyWith(
                                         color: Theme.of(context)
                                             .disabledColor
-                                            .withOpacity(0.6),
+                                            .withValues(alpha: 0.6),
                                         fontSize: 12),
                                     textAlign: TextAlign.center,
                                   ),

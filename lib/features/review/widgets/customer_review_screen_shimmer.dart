@@ -22,101 +22,152 @@ class CustomerReviewScreenShimmer extends StatelessWidget {
               border: Border.all(color: Theme.of(context).shadowColor),
             ),
             child: Column(children: [
-
               Container(
                 padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusSmall), topRight: Radius.circular(Dimensions.radiusSmall)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(Dimensions.radiusSmall),
+                      topRight: Radius.circular(Dimensions.radiusSmall)),
                 ),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                    child: Shimmer(
-                      child: Container(height: 15, width: 120, decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusSmall), color: Theme.of(context).shadowColor)),
-                    ),
-                  ),
-
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                    child: Shimmer(
-                      child: Container(height: 12, width: 150, decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusSmall), color: Theme.of(context).shadowColor)),
-                    ),
-                  ),
-
-                ]),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.radiusSmall),
+                        child: Shimmer(
+                          child: Container(
+                              height: 15,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radiusSmall),
+                                  color: Theme.of(context).shadowColor)),
+                        ),
+                      ),
+                      ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.radiusSmall),
+                        child: Shimmer(
+                          child: Container(
+                              height: 12,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radiusSmall),
+                                  color: Theme.of(context).shadowColor)),
+                        ),
+                      ),
+                    ]),
               ),
-
               Padding(
                 padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                 child: Row(children: [
-
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                    borderRadius:
+                        BorderRadius.circular(Dimensions.radiusDefault),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                      borderRadius:
+                          BorderRadius.circular(Dimensions.radiusDefault),
                       child: Shimmer(
-                        child: Container(height: 60, width: 60, decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusDefault), color: Theme.of(context).shadowColor)),
+                        child: Container(
+                            height: 60,
+                            width: 60,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    Dimensions.radiusDefault),
+                                color: Theme.of(context).shadowColor)),
                       ),
                     ),
                   ),
                   const SizedBox(width: Dimensions.paddingSizeDefault),
-
                   Expanded(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                      borderRadius:
+                          BorderRadius.circular(Dimensions.radiusDefault),
                       child: Shimmer(
-                        child: Container(height: 15, width: 80, decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusDefault), color: Theme.of(context).shadowColor)),
+                        child: Container(
+                            height: 15,
+                            width: 80,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    Dimensions.radiusDefault),
+                                color: Theme.of(context).shadowColor)),
                       ),
                     ),
                   ),
                   const SizedBox(width: Dimensions.paddingSizeDefault),
-
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                    borderRadius:
+                        BorderRadius.circular(Dimensions.radiusDefault),
                     child: Shimmer(
-                      child: Container(height: 40, width: 95, decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusDefault), color: Theme.of(context).shadowColor)),
+                      child: Container(
+                          height: 40,
+                          width: 95,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  Dimensions.radiusDefault),
+                              color: Theme.of(context).shadowColor)),
                     ),
                   ),
-
                 ]),
               ),
-
-              Divider(height: 0, thickness: 1, color: Theme.of(context).disabledColor.withOpacity(0.2)),
-
+              Divider(
+                  height: 0,
+                  thickness: 1,
+                  color:
+                      Theme.of(context).disabledColor.withValues(alpha: 0.2)),
               Padding(
                 padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                    child: Shimmer(
-                      child: Container(height: 10, width: 60, decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusDefault), color: Theme.of(context).shadowColor)),
-                    ),
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                      child: Shimmer(
-                        child: Container(height: 15, width: 100, decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusDefault), color: Theme.of(context).shadowColor)),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.radiusDefault),
+                        child: Shimmer(
+                          child: Container(
+                              height: 10,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radiusDefault),
+                                  color: Theme.of(context).shadowColor)),
+                        ),
                       ),
-                    ),
-
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                      child: Shimmer(
-                        child: Container(height: 10, width: 120, decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusDefault), color: Theme.of(context).shadowColor)),
-                      ),
-                    ),
-
-                  ]),
-
-                ]),
+                      const SizedBox(height: Dimensions.paddingSizeSmall),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  Dimensions.radiusDefault),
+                              child: Shimmer(
+                                child: Container(
+                                    height: 15,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                            Dimensions.radiusDefault),
+                                        color: Theme.of(context).shadowColor)),
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  Dimensions.radiusDefault),
+                              child: Shimmer(
+                                child: Container(
+                                    height: 10,
+                                    width: 120,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                            Dimensions.radiusDefault),
+                                        color: Theme.of(context).shadowColor)),
+                              ),
+                            ),
+                          ]),
+                    ]),
               ),
-
             ]),
           ),
         );

@@ -11,17 +11,20 @@ class PosRepository implements PosRepositoryInterface {
   @override
   Future<List<Product>?> searchProductList(String searchText) async {
     List<Product>? searchProductList;
-    Response response = await apiClient.postData(AppConstants.searchProductListUri, {'name': searchText});
+    Response response = await apiClient
+        .postData(AppConstants.searchProductListUri, {'name': searchText});
     if (response.statusCode == 200) {
       searchProductList = [];
-      response.body.forEach((food) => searchProductList!.add(Product.fromJson(food)));
+      response.body
+          .forEach((food) => searchProductList!.add(Product.fromJson(food)));
     }
     return searchProductList;
   }
 
   @override
   Future<Response> searchCustomerList(String searchText) async {
-    return await apiClient.getData('${AppConstants.searchCustomersUri}?search=$searchText');
+    return await apiClient
+        .getData('${AppConstants.searchCustomersUri}?search=$searchText');
   }
 
   @override
@@ -36,32 +39,26 @@ class PosRepository implements PosRepositoryInterface {
 
   @override
   Future add(value) {
-    // TODO: implement add
     throw UnimplementedError();
   }
 
   @override
   Future delete({int? id}) {
-    // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
   Future get(int id) {
-    // TODO: implement get
     throw UnimplementedError();
   }
 
   @override
   Future getList() {
-    // TODO: implement getList
     throw UnimplementedError();
   }
 
   @override
   Future update(Map<String, dynamic> body) {
-    // TODO: implement update
     throw UnimplementedError();
   }
-  
 }

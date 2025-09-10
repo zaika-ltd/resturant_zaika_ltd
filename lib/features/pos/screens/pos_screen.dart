@@ -285,7 +285,7 @@ class _PosScreenState extends State<PosScreen> {
                                     thickness: 1,
                                     color: Theme.of(context)
                                         .hintColor
-                                        .withOpacity(0.5)),
+                                        .withValues(alpha: 0.5)),
                               ),
 
                               Row(
@@ -343,7 +343,7 @@ class _PosScreenState extends State<PosScreen> {
                                     thickness: 1,
                                     color: Theme.of(context)
                                         .hintColor
-                                        .withOpacity(0.5)),
+                                        .withValues(alpha: 0.5)),
                               ),
 
                               Row(

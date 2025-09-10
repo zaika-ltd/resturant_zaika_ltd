@@ -11,49 +11,60 @@ class ReportRepository implements ReportRepositoryInterface {
   ReportRepository({required this.apiClient});
 
   @override
-  Future<TransactionReportModel?> getTransactionReportList({required int offset, required String? from, required String? to}) async {
+  Future<TransactionReportModel?> getTransactionReportList(
+      {required int offset, required String? from, required String? to}) async {
     TransactionReportModel? transactionReportModel;
-    Response response = await apiClient.getData('${AppConstants.transactionReportUri}?limit=10&offset=$offset&filter=custom&from=$from&to=$to');
-    if(response.statusCode == 200) {
+    Response response = await apiClient.getData(
+        '${AppConstants.transactionReportUri}?limit=10&offset=$offset&filter=custom&from=$from&to=$to');
+    if (response.statusCode == 200) {
       transactionReportModel = TransactionReportModel.fromJson(response.body);
     }
     return transactionReportModel;
   }
+
   @override
-  Future<TransactionSummaryModel?> getTransactionReportDateWise({required String? from, required String? to}) async {
+  Future<TransactionSummaryModel?> getTransactionReportDateWise(
+      {required String? from, required String? to}) async {
     TransactionSummaryModel? transactionReportModel;
-    Response response = await apiClient.getData('${AppConstants.transactionReportDateWiseUri}?limit=10&offset=1&filter=custom&from=$from&to=$to');
-    if(response.statusCode == 200) {
+    Response response = await apiClient.getData(
+        '${AppConstants.transactionReportDateWiseUri}?limit=10&offset=1&filter=custom&from=$from&to=$to');
+    if (response.statusCode == 200) {
       transactionReportModel = TransactionSummaryModel.fromJson(response.body);
     }
     return transactionReportModel;
   }
 
   @override
-  Future<OrderReportModel?> getOrderReportList({required int offset, required String? from, required String? to}) async {
+  Future<OrderReportModel?> getOrderReportList(
+      {required int offset, required String? from, required String? to}) async {
     OrderReportModel? orderReportModel;
-    Response response = await apiClient.getData('${AppConstants.orderReportUri}?limit=10&offset=$offset&filter=custom&from=$from&to=$to');
-    if(response.statusCode == 200) {
+    Response response = await apiClient.getData(
+        '${AppConstants.orderReportUri}?limit=10&offset=$offset&filter=custom&from=$from&to=$to');
+    if (response.statusCode == 200) {
       orderReportModel = OrderReportModel.fromJson(response.body);
     }
     return orderReportModel;
   }
 
   @override
-  Future<OrderReportModel?> getCampaignReportList({required int offset, required String? from, required String? to}) async {
+  Future<OrderReportModel?> getCampaignReportList(
+      {required int offset, required String? from, required String? to}) async {
     OrderReportModel? campaignReportModel;
-    Response response = await apiClient.getData('${AppConstants.campaignReportUri}?limit=10&offset=$offset&filter=custom&from=$from&to=$to');
-    if(response.statusCode == 200) {
+    Response response = await apiClient.getData(
+        '${AppConstants.campaignReportUri}?limit=10&offset=$offset&filter=custom&from=$from&to=$to');
+    if (response.statusCode == 200) {
       campaignReportModel = OrderReportModel.fromJson(response.body);
     }
     return campaignReportModel;
   }
 
   @override
-  Future<FoodReportModel?> getFoodReportList({required int offset, required String? from, required String? to}) async {
+  Future<FoodReportModel?> getFoodReportList(
+      {required int offset, required String? from, required String? to}) async {
     FoodReportModel? foodReportModel;
-    Response response = await apiClient.getData('${AppConstants.foodReportUri}?limit=10&offset=$offset&filter=custom&from=$from&to=$to');
-    if(response.statusCode == 200) {
+    Response response = await apiClient.getData(
+        '${AppConstants.foodReportUri}?limit=10&offset=$offset&filter=custom&from=$from&to=$to');
+    if (response.statusCode == 200) {
       foodReportModel = FoodReportModel.fromJson(response.body);
     }
     return foodReportModel;
@@ -61,7 +72,8 @@ class ReportRepository implements ReportRepositoryInterface {
 
   @override
   Future<Response> getTransactionReportStatement({required int orderId}) async {
-    Response response = await apiClient.getData('${AppConstants.getTransactionStatement}?order_id=$orderId');
+    Response response = await apiClient
+        .getData('${AppConstants.getTransactionStatement}?order_id=$orderId');
     return response;
   }
 
@@ -87,8 +99,6 @@ class ReportRepository implements ReportRepositoryInterface {
 
   @override
   Future update(Map<String, dynamic> body) {
-    // TODO: implement update
     throw UnimplementedError();
   }
-
 }

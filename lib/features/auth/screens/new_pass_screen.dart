@@ -20,16 +20,20 @@ class NewPassScreen extends StatefulWidget {
   final String? resetToken;
   final String? email;
   final bool fromPasswordChange;
-  const NewPassScreen({super.key, required this.resetToken, required this.email, required this.fromPasswordChange});
+  const NewPassScreen(
+      {super.key,
+      required this.resetToken,
+      required this.email,
+      required this.fromPasswordChange});
 
   @override
   State<NewPassScreen> createState() => _NewPassScreenState();
 }
 
 class _NewPassScreenState extends State<NewPassScreen> {
-
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final FocusNode _newPasswordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
 
@@ -37,7 +41,7 @@ class _NewPassScreenState extends State<NewPassScreen> {
   void initState() {
     super.initState();
 
-    if(Get.find<AuthController>().showPassView){
+    if (Get.find<AuthController>().showPassView) {
       Get.find<AuthController>().showHidePass();
     }
   }
@@ -45,106 +49,148 @@ class _NewPassScreenState extends State<NewPassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: CustomAppBarWidget(title: 'change_password'.tr),
-
       body: GetBuilder<AuthController>(builder: (authController) {
-        return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
-          Flexible(
-            child: SingleChildScrollView(
-              child: Container(
-                margin: const EdgeInsets.all(Dimensions.paddingSizeLarge),
-                padding: const EdgeInsets.only(
-                  left: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,
-                  top: Dimensions.paddingSizeDefault, bottom: 45,
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Container(
+                    margin: const EdgeInsets.all(Dimensions.paddingSizeLarge),
+                    padding: const EdgeInsets.only(
+                      left: Dimensions.paddingSizeSmall,
+                      right: Dimensions.paddingSizeSmall,
+                      top: Dimensions.paddingSizeDefault,
+                      bottom: 45,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.black12,
+                            spreadRadius: 0,
+                            blurRadius: 5)
+                      ],
+                      borderRadius:
+                          BorderRadius.circular(Dimensions.radiusDefault),
+                    ),
+                    child: Column(mainAxisSize: MainAxisSize.min, children: [
+                      const CustomAssetImageWidget(
+                        image: Images.changePasswordBgImage,
+                        height: 145,
+                        width: 160,
+                      ),
+                      const SizedBox(height: Dimensions.paddingSizeDefault),
+                      widget.fromPasswordChange
+                          ? SizedBox(
+                              width: context.width * 0.5,
+                              child: Text(
+                                  'please_enter_your_new_password_and_confirm_password'
+                                      .tr,
+                                  style: robotoRegular.copyWith(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.color
+                                          ?.withValues(alpha: 0.5)),
+                                  textAlign: TextAlign.center),
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                  Text('number_verification_is_successful'.tr,
+                                      style: robotoBold.copyWith(
+                                          fontWeight: FontWeight.w600)),
+                                  const SizedBox(height: 5),
+                                  Text('please_set_your_new_password'.tr,
+                                      style: robotoRegular.copyWith(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color
+                                              ?.withValues(alpha: 0.5))),
+                                ]),
+                      const SizedBox(height: 35),
+                      CustomTextFieldWidget(
+                        hintText: '8_characters'.tr,
+                        labelText: 'password'.tr,
+                        errorText: ApiChecker.errors['password'],
+                        controller: _newPasswordController,
+                        focusNode: _newPasswordFocus,
+                        nextFocus: _confirmPasswordFocus,
+                        inputType: TextInputType.visiblePassword,
+                        prefixIcon: Icons.lock,
+                        isPassword: true,
+                        onChanged: (value) {
+                          if (value != null && value.isNotEmpty) {
+                            if (!authController.showPassView) {
+                              authController.showHidePass();
+                            }
+                            authController.validPassCheck(value);
+                          } else {
+                            if (authController.showPassView) {
+                              authController.showHidePass();
+                            }
+                          }
+                        },
+                      ),
+                      authController.showPassView
+                          ? const Align(
+                              alignment: Alignment.centerLeft,
+                              child: PassViewWidget())
+                          : const SizedBox(),
+                      const SizedBox(height: 35),
+                      CustomTextFieldWidget(
+                        labelText: 'confirm_password'.tr,
+                        hintText: '8_characters'.tr,
+                        errorText: ApiChecker.errors['confirm_password'],
+                        controller: _confirmPasswordController,
+                        focusNode: _confirmPasswordFocus,
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.visiblePassword,
+                        prefixIcon: Icons.lock,
+                        isPassword: true,
+                        onChanged: (String text) => setState(() {}),
+                      ),
+                    ]),
+                  ),
                 ),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  boxShadow: const [BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 5)],
-                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                ),
-                child: Column(mainAxisSize: MainAxisSize.min, children: [
-
-                  const CustomAssetImageWidget(
-                    image: Images.changePasswordBgImage,
-                    height: 145, width: 160,
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  widget.fromPasswordChange ? SizedBox(
-                    width: context.width * 0.5,
-                    child: Text('please_enter_your_new_password_and_confirm_password'.tr, style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.5)), textAlign: TextAlign.center),
-                  ) : Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                    Text('number_verification_is_successful'.tr, style: robotoBold.copyWith(fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 5),
-
-                    Text('please_set_your_new_password'.tr, style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.5))),
-                  ]),
-                  const SizedBox(height: 35),
-
-                  CustomTextFieldWidget(
-                    hintText: '8_characters'.tr,
-                    labelText: 'password'.tr,
-                    errorText: ApiChecker.errors['password'],
-                    controller: _newPasswordController,
-                    focusNode: _newPasswordFocus,
-                    nextFocus: _confirmPasswordFocus,
-                    inputType: TextInputType.visiblePassword,
-                    prefixIcon: Icons.lock,
-                    isPassword: true,
-                    onChanged: (value){
-                      if(value != null && value.isNotEmpty){
-                        if(!authController.showPassView){
-                          authController.showHidePass();
-                        }
-                        authController.validPassCheck(value);
-                      }else{
-                        if(authController.showPassView){
-                          authController.showHidePass();
-                        }
-                      }
-                    },
-                  ),
-
-                  authController.showPassView ? const Align(alignment: Alignment.centerLeft, child: PassViewWidget()) : const SizedBox(),
-                  const SizedBox(height: 35),
-
-                  CustomTextFieldWidget(
-                    labelText: 'confirm_password'.tr,
-                    hintText: '8_characters'.tr,
-                    errorText: ApiChecker.errors['confirm_password'],
-                    controller: _confirmPasswordController,
-                    focusNode: _confirmPasswordFocus,
-                    inputAction: TextInputAction.done,
-                    inputType: TextInputType.visiblePassword,
-                    prefixIcon: Icons.lock,
-                    isPassword: true,
-                    onChanged: (String text) => setState(() {}),
-                  ),
-
-                ]),
               ),
-            ),
-          ),
-
-          GetBuilder<ForgotPasswordController>(builder: (forgotPasswordController) {
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeExtraLarge),
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                boxShadow: const [BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 5)],
-              ),
-              child: !forgotPasswordController.isLoading ? CustomButtonWidget(
-                buttonText: widget.fromPasswordChange ? 'save'.tr : 'update'.tr,
-                color: _newPasswordController.text.trim().isEmpty || _confirmPasswordController.text.trim().isEmpty ? const Color(0xff9DA7BC).withOpacity(0.7) : Theme.of(context).primaryColor,
-                onPressed: () => _newPasswordController.text.trim().isNotEmpty || _confirmPasswordController.text.trim().isNotEmpty ?_resetPassword() : null,
-              ) : const Center(child: CircularProgressIndicator()),
-
-            );
-          }),
-
-        ]);
+              GetBuilder<ForgotPasswordController>(
+                  builder: (forgotPasswordController) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: Dimensions.paddingSizeDefault,
+                      horizontal: Dimensions.paddingSizeExtraLarge),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black12, spreadRadius: 0, blurRadius: 5)
+                    ],
+                  ),
+                  child: !forgotPasswordController.isLoading
+                      ? CustomButtonWidget(
+                          buttonText: widget.fromPasswordChange
+                              ? 'save'.tr
+                              : 'update'.tr,
+                          color: _newPasswordController.text.trim().isEmpty ||
+                                  _confirmPasswordController.text.trim().isEmpty
+                              ? const Color(0xff9DA7BC).withValues(alpha: 0.7)
+                              : Theme.of(context).primaryColor,
+                          onPressed: () =>
+                              _newPasswordController.text.trim().isNotEmpty ||
+                                      _confirmPasswordController.text
+                                          .trim()
+                                          .isNotEmpty
+                                  ? _resetPassword()
+                                  : null,
+                        )
+                      : const Center(child: CircularProgressIndicator()),
+                );
+              }),
+            ]);
       }),
     );
   }
@@ -154,14 +200,16 @@ class _NewPassScreenState extends State<NewPassScreen> {
     String confirmPassword = _confirmPasswordController.text.trim();
     if (password.isEmpty) {
       showCustomSnackBar('enter_password'.tr);
-    }else if (password.length < 6) {
+    } else if (password.length < 6) {
       showCustomSnackBar('password_should_be'.tr);
-    }else if(password != confirmPassword) {
+    } else if (password != confirmPassword) {
       showCustomSnackBar('password_does_not_matched'.tr);
-    }else {
-      if(widget.fromPasswordChange) {
+    } else {
+      if (widget.fromPasswordChange) {
         ProfileModel user = Get.find<ProfileController>().profileModel!;
-        Get.find<ForgotPasswordController>().changePassword(user, password).then((value) {
+        Get.find<ForgotPasswordController>()
+            .changePassword(user, password)
+            .then((value) {
           if (value) {
             showDialog(
               context: Get.context!,
@@ -171,11 +219,11 @@ class _NewPassScreenState extends State<NewPassScreen> {
                   height: 260,
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                    borderRadius:
+                        BorderRadius.circular(Dimensions.radiusDefault),
                   ),
                   padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                   child: Column(children: [
-
                     Align(
                       alignment: Alignment.topRight,
                       child: InkWell(
@@ -185,20 +233,22 @@ class _NewPassScreenState extends State<NewPassScreen> {
                         child: const Icon(Icons.close, size: 25),
                       ),
                     ),
-
                     Flexible(
-                      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-
-                        const CustomAssetImageWidget(
-                          image: Images.passwordUpdateIcon, height: 60, width: 60,
-                        ),
-                        const SizedBox(height: Dimensions.paddingSizeLarge),
-
-                        Text('password_successfully_updated'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge), textAlign: TextAlign.center),
-
-                      ]),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const CustomAssetImageWidget(
+                              image: Images.passwordUpdateIcon,
+                              height: 60,
+                              width: 60,
+                            ),
+                            const SizedBox(height: Dimensions.paddingSizeLarge),
+                            Text('password_successfully_updated'.tr,
+                                style: robotoBold.copyWith(
+                                    fontSize: Dimensions.fontSizeLarge),
+                                textAlign: TextAlign.center),
+                          ]),
                     ),
-
                   ]),
                 ),
               ),
@@ -207,10 +257,15 @@ class _NewPassScreenState extends State<NewPassScreen> {
             showCustomSnackBar('password_update_failed'.tr);
           }
         });
-      }else {
-        Get.find<ForgotPasswordController>().resetPassword(widget.resetToken, widget.email, password, confirmPassword).then((value) {
+      } else {
+        Get.find<ForgotPasswordController>()
+            .resetPassword(
+                widget.resetToken, widget.email, password, confirmPassword)
+            .then((value) {
           if (value.isSuccess) {
-            Get.find<AuthController>().login(widget.email, password).then((value) async {
+            Get.find<AuthController>()
+                .login(widget.email, password)
+                .then((value) async {
               Get.offAllNamed(RouteHelper.getInitialRoute());
             });
           } else {
@@ -220,5 +275,4 @@ class _NewPassScreenState extends State<NewPassScreen> {
       }
     }
   }
-
 }

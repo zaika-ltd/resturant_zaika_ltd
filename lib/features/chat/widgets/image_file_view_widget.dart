@@ -10,7 +10,8 @@ import 'package:stackfood_multivendor_restaurant/util/styles.dart';
 class ImageFileViewWidget extends StatefulWidget {
   final Message currentMessage;
   final bool isRightMessage;
-  const ImageFileViewWidget({super.key, required this.currentMessage, required this.isRightMessage});
+  const ImageFileViewWidget(
+      {super.key, required this.currentMessage, required this.isRightMessage});
 
   @override
   State<ImageFileViewWidget> createState() => _ImageFileViewWidgetState();
@@ -24,7 +25,10 @@ class _ImageFileViewWidgetState extends State<ImageFileViewWidget> {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: !showAllImages ? (widget.currentMessage.filesFullUrl!.length > 5 ? 6 : widget.currentMessage.filesFullUrl!.length)
+      itemCount: !showAllImages
+          ? (widget.currentMessage.filesFullUrl!.length > 5
+              ? 6
+              : widget.currentMessage.filesFullUrl!.length)
           : widget.currentMessage.filesFullUrl!.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
@@ -38,49 +42,64 @@ class _ImageFileViewWidgetState extends State<ImageFileViewWidget> {
               context: context,
               builder: (BuildContext context) {
                 return Dialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusLarge)),
-                  child: CustomPhotoView(imageUrl: widget.currentMessage.filesFullUrl![index]),
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(Dimensions.radiusLarge)),
+                  child: CustomPhotoView(
+                      imageUrl: widget.currentMessage.filesFullUrl![index]),
                 );
               },
             );
           },
-          onLongPress: () => Get.find<ChatController>().toggleOnClickImageAndFile(widget.currentMessage.id!),
+          onLongPress: () => Get.find<ChatController>()
+              .toggleOnClickImageAndFile(widget.currentMessage.id!),
           child: Stack(
             children: [
               Hero(
                 tag: widget.currentMessage.filesFullUrl![index],
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
-                  child: CustomImageWidget(image: widget.currentMessage.filesFullUrl![index], fit: BoxFit.cover, height: double.infinity, width: double.infinity,),
+                  child: CustomImageWidget(
+                    image: widget.currentMessage.filesFullUrl![index],
+                    fit: BoxFit.cover,
+                    height: double.infinity,
+                    width: double.infinity,
+                  ),
                 ),
               ),
-
-              if(!showAllImages && (widget.isRightMessage ? index == 3 : index == 5) && widget.currentMessage.filesFullUrl!.length > 5 && widget.currentMessage.filesFullUrl!.length != 6)
+              if (!showAllImages &&
+                  (widget.isRightMessage ? index == 3 : index == 5) &&
+                  widget.currentMessage.filesFullUrl!.length > 5 &&
+                  widget.currentMessage.filesFullUrl!.length != 6)
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     setState(() {
                       showAllImages = true;
                     });
                   },
                   child: Container(
-                    height: double.infinity, width: double.infinity,
+                    height: double.infinity,
+                    width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).disabledColor.withOpacity(0.8),
-                      borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
+                      color: Theme.of(context)
+                          .disabledColor
+                          .withValues(alpha: 0.8),
+                      borderRadius:
+                          BorderRadius.circular(Dimensions.radiusLarge),
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      '${widget.currentMessage.filesFullUrl!.length -6} +',
-                      style: robotoBold.copyWith(fontSize: Dimensions.fontSizeOverLarge, color: Theme.of(context).cardColor),
+                      '${widget.currentMessage.filesFullUrl!.length - 6} +',
+                      style: robotoBold.copyWith(
+                          fontSize: Dimensions.fontSizeOverLarge,
+                          color: Theme.of(context).cardColor),
                     ),
                   ),
                 )
             ],
           ),
         );
-
       },
     );
   }
-
 }

@@ -468,7 +468,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                           decoration: BoxDecoration(
                                             color: Theme.of(context)
                                                 .primaryColor
-                                                .withOpacity(0.1),
+                                                .withValues(alpha: 0.1),
                                             borderRadius: BorderRadius.circular(
                                                 Dimensions.radiusSmall),
                                           ),
@@ -1229,7 +1229,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                                       Dimensions.radiusDefault),
                                               color: Theme.of(context)
                                                   .primaryColor
-                                                  .withOpacity(0.1),
+                                                  .withValues(alpha: 0.1),
                                             ),
                                             child: Row(children: [
                                               ClipRRect(
@@ -1476,7 +1476,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                                                 .radiusDefault),
                                                     color: Theme.of(context)
                                                         .disabledColor
-                                                        .withOpacity(0.1),
+                                                        .withValues(alpha: 0.1),
                                                   ),
                                                   child: Column(
                                                       mainAxisAlignment:
@@ -1652,7 +1652,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                           thickness: 1,
                                           color: Theme.of(context)
                                               .hintColor
-                                              .withOpacity(0.5)),
+                                              .withValues(alpha: 0.5)),
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -1811,7 +1811,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                             thickness: 1,
                                             color: Theme.of(context)
                                                 .hintColor
-                                                .withOpacity(0.5)),
+                                                .withValues(alpha: 0.5)),
                                       ),
                                       order.paymentMethod == 'partial_payment'
                                           ? DottedBorder(
@@ -1834,7 +1834,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                                 color: restConfModel
                                                     ? Theme.of(context)
                                                         .primaryColor
-                                                        .withOpacity(0.05)
+                                                        .withValues(alpha: 0.05)
                                                     : Colors.transparent,
                                                 child: Column(children: [
                                                   Row(
@@ -1963,7 +1963,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                   decoration: BoxDecoration(
                                     color: Theme.of(context)
                                         .primaryColor
-                                        .withOpacity(0.05),
+                                        .withValues(alpha: 0.05),
                                     borderRadius: BorderRadius.circular(
                                         Dimensions.radiusDefault),
                                   ),
@@ -2008,7 +2008,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                                       Dimensions.radiusDefault),
                                               color: Theme.of(context)
                                                   .primaryColor
-                                                  .withOpacity(0.1),
+                                                  .withValues(alpha: 0.1),
                                             ),
                                             child: Icon(Icons.camera_alt_sharp,
                                                 color: Theme.of(context)

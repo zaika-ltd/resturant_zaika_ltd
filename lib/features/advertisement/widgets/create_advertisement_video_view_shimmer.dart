@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
@@ -10,9 +9,9 @@ class CreateAdvertisementVideoViewShimmer extends StatelessWidget {
     return Shimmer(
       duration: const Duration(seconds: 2),
       child: AspectRatio(
-        aspectRatio: 16/9,
+        aspectRatio: 16 / 9,
         child: Container(
-          color: Theme.of(context).hintColor.withOpacity(0.2),
+          color: Theme.of(context).hintColor.withValues(alpha: 0.2),
         ),
       ),
     );

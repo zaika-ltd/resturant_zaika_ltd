@@ -31,13 +31,15 @@ class PaymentRepository implements PaymentRepositoryInterface {
 
   @override
   Future<bool> updateBankInfo(BankInfoBodyModel bankInfoBody) async {
-    Response response = await apiClient.putData(AppConstants.updateBankInfoUri, bankInfoBody.toJson());
+    Response response = await apiClient.putData(
+        AppConstants.updateBankInfoUri, bankInfoBody.toJson());
     return (response.statusCode == 200);
   }
 
   @override
   Future<bool> requestWithdraw(Map<String?, String> data) async {
-    Response response = await apiClient.postData(AppConstants.withdrawRequestUri, data);
+    Response response =
+        await apiClient.postData(AppConstants.withdrawRequestUri, data);
     debugPrint("Response is ${response}");
     return (response.statusCode == 200);
   }
@@ -45,11 +47,13 @@ class PaymentRepository implements PaymentRepositoryInterface {
   @override
   Future<List<WidthDrawMethodModel>?> getWithdrawMethodList() async {
     List<WidthDrawMethodModel>? widthDrawMethodList;
-    Response response = await apiClient.getData(AppConstants.withdrawRequestMethodUri);
+    Response response =
+        await apiClient.getData(AppConstants.withdrawRequestMethodUri);
     if (response.statusCode == 200) {
       widthDrawMethodList = [];
       response.body.forEach((method) {
-        WidthDrawMethodModel withdrawMethod = WidthDrawMethodModel.fromJson(method);
+        WidthDrawMethodModel withdrawMethod =
+            WidthDrawMethodModel.fromJson(method);
         widthDrawMethodList!.add(withdrawMethod);
       });
     }
@@ -57,23 +61,24 @@ class PaymentRepository implements PaymentRepositoryInterface {
   }
 
   @override
-  Future<ResponseModel> makeCollectCashPayment(double amount, String paymentGatewayName) async {
+  Future<ResponseModel> makeCollectCashPayment(
+      double amount, String paymentGatewayName) async {
     ResponseModel responseModel;
-    Response response = await apiClient.postData(AppConstants.makeCollectedCashPaymentUri,
-      {
-        "amount": amount,
-        "payment_gateway": paymentGatewayName,
-        "callback": RouteHelper.success,
-        "token": _getUserToken(),
-      }
-    );
+    Response response =
+        await apiClient.postData(AppConstants.makeCollectedCashPaymentUri, {
+      "amount": amount,
+      "payment_gateway": paymentGatewayName,
+      "callback": RouteHelper.success,
+      "token": _getUserToken(),
+    });
     if (response.statusCode == 200) {
       String redirectUrl = response.body['redirect_link'];
       Get.back();
-      if(GetPlatform.isWeb) {
+      if (GetPlatform.isWeb) {
         // html.window.open(redirectUrl,"_self");
-      } else{
-        Get.toNamed(RouteHelper.getPaymentRoute(null, redirectUrl, null, false, null));
+      } else {
+        Get.toNamed(
+            RouteHelper.getPaymentRoute(null, redirectUrl, null, false, null));
       }
       responseModel = ResponseModel(true, response.body.toString());
     } else {
@@ -84,17 +89,20 @@ class PaymentRepository implements PaymentRepositoryInterface {
 
   @override
   Future<bool> makeWalletAdjustment() async {
-    Response response = await apiClient.postData(AppConstants.makeWalletAdjustmentUri, {'token': _getUserToken()});
+    Response response = await apiClient.postData(
+        AppConstants.makeWalletAdjustmentUri, {'token': _getUserToken()});
     return (response.statusCode == 200);
   }
 
   @override
   Future<List<Transactions>?> getWalletPaymentList() async {
     List<Transactions>? transactions;
-    Response response = await apiClient.getData(AppConstants.walletPaymentListUri);
+    Response response =
+        await apiClient.getData(AppConstants.walletPaymentListUri);
     if (response.statusCode == 200) {
       transactions = [];
-      WalletPaymentModel walletPaymentModel = WalletPaymentModel.fromJson(response.body);
+      WalletPaymentModel walletPaymentModel =
+          WalletPaymentModel.fromJson(response.body);
       transactions.addAll(walletPaymentModel.transactions!);
     }
     return transactions;
@@ -106,26 +114,21 @@ class PaymentRepository implements PaymentRepositoryInterface {
 
   @override
   Future add(value) {
-    // TODO: implement add
     throw UnimplementedError();
   }
 
   @override
   Future delete({int? id}) {
-    // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
   Future get(int id) {
-    // TODO: implement get
     throw UnimplementedError();
   }
 
   @override
   Future update(Map<String, dynamic> body) {
-    // TODO: implement update
     throw UnimplementedError();
   }
-
 }

@@ -1,5 +1,5 @@
-package com.zaika.stackfood_multivendor_restaurant
+package com.zaika.restaurant
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity : FlutterActivity()
+class MainActivity : FlutterActivity(){}

@@ -10,7 +10,8 @@ import 'package:get/get.dart';
 class TransactionDetailsBottomSheetWidget extends StatelessWidget {
   final OrderTransactions orderTransactions;
 
-  const TransactionDetailsBottomSheetWidget({super.key, required this.orderTransactions});
+  const TransactionDetailsBottomSheetWidget(
+      {super.key, required this.orderTransactions});
 
   @override
   Widget build(BuildContext context) {
@@ -24,114 +25,158 @@ class TransactionDetailsBottomSheetWidget extends StatelessWidget {
           ),
         ),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-
           Container(
-            color: Theme.of(context).disabledColor.withOpacity(0.1),
+            color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
             child: Column(children: [
-
               const SizedBox(height: Dimensions.paddingSizeLarge),
-
               Container(
-                height: 5, width: 50,
+                height: 5,
+                width: 50,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).disabledColor.withOpacity(0.2),
+                  color: Theme.of(context).disabledColor.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                 ),
               ),
               const SizedBox(height: Dimensions.paddingSizeDefault),
-
               Padding(
                 padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-                  Expanded(
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('transaction_details'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.6))),
-                      const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                      Text('${'order'.tr} # ${orderTransactions.orderId}', style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
-                      const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                      Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                        Text('${'payment_status'.tr} - ', style: robotoRegular),
-                        Text(orderTransactions.paymentStatus.toString(), style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge,
-                            color: orderTransactions.paymentStatus.toString() == 'Completed' ? Colors.green : Colors.red)),
-                      ]),
-                      const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                      Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                        Text('${'payment_method'.tr} - ', style: robotoRegular),
-                        Text(orderTransactions.paymentMethod.toString(), style: robotoBold.copyWith(fontSize: Dimensions.fontSizeDefault)),
-                      ]),
-                      const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                      Wrap(alignment: WrapAlignment.start, children: [
-                        Text('${'amount_received_by'.tr} - ', style: robotoRegular),
-                        Text(orderTransactions.amountReceivedBy.toString(), style: robotoBold.copyWith(fontSize: Dimensions.fontSizeDefault)),
-                      ]),
-
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('transaction_details'.tr,
+                                  style: robotoBold.copyWith(
+                                      fontSize: Dimensions.fontSizeLarge,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .color
+                                          ?.withValues(alpha: 0.6))),
+                              const SizedBox(
+                                  height: Dimensions.paddingSizeDefault),
+                              Text(
+                                  '${'order'.tr} # ${orderTransactions.orderId}',
+                                  style: robotoBold.copyWith(
+                                      fontSize: Dimensions.fontSizeLarge)),
+                              const SizedBox(
+                                  height: Dimensions.paddingSizeSmall),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text('${'payment_status'.tr} - ',
+                                        style: robotoRegular),
+                                    Text(
+                                        orderTransactions.paymentStatus
+                                            .toString(),
+                                        style: robotoMedium.copyWith(
+                                            fontSize: Dimensions.fontSizeLarge,
+                                            color: orderTransactions
+                                                        .paymentStatus
+                                                        .toString() ==
+                                                    'Completed'
+                                                ? Colors.green
+                                                : Colors.red)),
+                                  ]),
+                              const SizedBox(
+                                  height: Dimensions.paddingSizeSmall),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text('${'payment_method'.tr} - ',
+                                        style: robotoRegular),
+                                    Text(
+                                        orderTransactions.paymentMethod
+                                            .toString(),
+                                        style: robotoBold.copyWith(
+                                            fontSize:
+                                                Dimensions.fontSizeDefault)),
+                                  ]),
+                              const SizedBox(
+                                  height: Dimensions.paddingSizeSmall),
+                              Wrap(alignment: WrapAlignment.start, children: [
+                                Text('${'amount_received_by'.tr} - ',
+                                    style: robotoRegular),
+                                Text(
+                                    orderTransactions.amountReceivedBy
+                                        .toString(),
+                                    style: robotoBold.copyWith(
+                                        fontSize: Dimensions.fontSizeDefault)),
+                              ]),
+                            ]),
+                      ),
+                      const SizedBox(width: Dimensions.paddingSizeLarge),
+                      ExportButton(
+                        onTap: reportController.isLoading
+                            ? null
+                            : () =>
+                                reportController.getTransactionReportStatement(
+                                    orderTransactions.orderId!),
+                        isLoading: reportController.isLoading,
+                      ),
                     ]),
-                  ),
-                  const SizedBox(width: Dimensions.paddingSizeLarge),
-
-                  ExportButton(
-                    onTap: reportController.isLoading ? null : () => reportController.getTransactionReportStatement(orderTransactions.orderId!),
-                    isLoading: reportController.isLoading,
-                  ),
-
-                ]),
               ),
-
             ]),
           ),
-
           Flexible(
             child: Padding(
               padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(mainAxisSize: MainAxisSize.min, children: [
-
-                  TitleWithAmountWidget(title: 'total_food_amount'.tr, amount: orderTransactions.totalItemAmount ?? 0),
+                  TitleWithAmountWidget(
+                      title: 'total_food_amount'.tr,
+                      amount: orderTransactions.totalItemAmount ?? 0),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  TitleWithAmountWidget(title: 'food_discount'.tr, amount: orderTransactions.itemDiscount ?? 0),
+                  TitleWithAmountWidget(
+                      title: 'food_discount'.tr,
+                      amount: orderTransactions.itemDiscount ?? 0),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  TitleWithAmountWidget(title: 'coupon_discount'.tr, amount: orderTransactions.couponDiscount ?? 0),
+                  TitleWithAmountWidget(
+                      title: 'coupon_discount'.tr,
+                      amount: orderTransactions.couponDiscount ?? 0),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  TitleWithAmountWidget(title: 'total_discount'.tr, amount: orderTransactions.discountedAmount ?? 0),
+                  TitleWithAmountWidget(
+                      title: 'total_discount'.tr,
+                      amount: orderTransactions.discountedAmount ?? 0),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  TitleWithAmountWidget(title: 'vat_tax'.tr, amount: orderTransactions.vat ?? 0),
+                  TitleWithAmountWidget(
+                      title: 'vat_tax'.tr, amount: orderTransactions.vat ?? 0),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  TitleWithAmountWidget(title: 'delivery_charge'.tr, amount: orderTransactions.deliveryCharge ?? 0),
+                  TitleWithAmountWidget(
+                      title: 'delivery_charge'.tr,
+                      amount: orderTransactions.deliveryCharge ?? 0),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  TitleWithAmountWidget(title: 'order_amount'.tr, amount: orderTransactions.orderAmount ?? 0),
+                  TitleWithAmountWidget(
+                      title: 'order_amount'.tr,
+                      amount: orderTransactions.orderAmount ?? 0),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  TitleWithAmountWidget(title: 'admin_discount'.tr, amount: orderTransactions.adminDiscount ?? 0),
+                  TitleWithAmountWidget(
+                      title: 'admin_discount'.tr,
+                      amount: orderTransactions.adminDiscount ?? 0),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  TitleWithAmountWidget(title: 'restaurant_discount'.tr, amount: orderTransactions.restaurantDiscount ?? 0),
+                  TitleWithAmountWidget(
+                      title: 'restaurant_discount'.tr,
+                      amount: orderTransactions.restaurantDiscount ?? 0),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  TitleWithAmountWidget(title: 'admin_commission'.tr, amount: orderTransactions.adminCommission ?? 0),
+                  TitleWithAmountWidget(
+                      title: 'admin_commission'.tr,
+                      amount: orderTransactions.adminCommission ?? 0),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  TitleWithAmountWidget(title: 'commission_on_delivery_charge'.tr, amount: orderTransactions.commissionOnDeliveryCharge ?? 0),
+                  TitleWithAmountWidget(
+                      title: 'commission_on_delivery_charge'.tr,
+                      amount:
+                          orderTransactions.commissionOnDeliveryCharge ?? 0),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                  TitleWithAmountWidget(title: 'restaurant_net_income'.tr, amount: orderTransactions.restaurantNetIncome ?? 0),
-
+                  TitleWithAmountWidget(
+                      title: 'restaurant_net_income'.tr,
+                      amount: orderTransactions.restaurantNetIncome ?? 0),
                 ]),
               ),
             ),
           ),
-
         ]),
       );
     });

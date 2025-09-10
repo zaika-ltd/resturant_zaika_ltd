@@ -63,6 +63,8 @@ dependencies:
   open_file: ^3.5.10
   rename: ^3.1.0
   syncfusion_flutter_charts: ^31.1.17
+  share_plus: ^11.1.0
+  # open_file_plus: ^3.4.1+1
 
 dependency_overrides:
   collection: ^1.19.0

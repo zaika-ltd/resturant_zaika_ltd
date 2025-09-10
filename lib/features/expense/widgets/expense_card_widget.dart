@@ -16,50 +16,65 @@ class ExpenseCardWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(Dimensions.radiusSmall + 2),
-        boxShadow: const [BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 5)],
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 5)
+        ],
       ),
-      margin: const EdgeInsets.only(top: Dimensions.paddingSizeDefault, left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault),
+      margin: const EdgeInsets.only(
+          top: Dimensions.paddingSizeDefault,
+          left: Dimensions.paddingSizeDefault,
+          right: Dimensions.paddingSizeDefault),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
         Container(
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusSmall), topRight: Radius.circular(Dimensions.radiusSmall)),
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), spreadRadius: -3, blurRadius: 6, offset: const Offset(0, 3))],
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(Dimensions.radiusSmall),
+                topRight: Radius.circular(Dimensions.radiusSmall)),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  spreadRadius: -3,
+                  blurRadius: 6,
+                  offset: const Offset(0, 3))
+            ],
           ),
           child: Row(children: [
             Text('${'order'.tr} # ', style: robotoRegular),
             Text(expense.orderId.toString(), style: robotoBold),
           ]),
         ),
-
         Padding(
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
           child: Column(
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
                 Text(
                   DateConverter.dateTimeStringToDateTime(expense.createdAt!),
-                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                  style: robotoRegular.copyWith(
+                      fontSize: Dimensions.fontSizeSmall,
+                      color: Theme.of(context).disabledColor),
                 ),
-
-                Text('amount'.tr, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
-
+                Text('amount'.tr,
+                    style: robotoRegular.copyWith(
+                        fontSize: Dimensions.fontSizeSmall,
+                        color: Theme.of(context).disabledColor)),
               ]),
               const SizedBox(height: Dimensions.paddingSizeSmall),
-
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
                 Row(children: [
-                  Text('${'expense_type'.tr} - ', style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
-
-                  Text(expense.type!.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.blue)),
+                  Text('${'expense_type'.tr} - ',
+                      style: robotoRegular.copyWith(
+                          fontSize: Dimensions.fontSizeSmall)),
+                  Text(expense.type!.tr,
+                      style: robotoMedium.copyWith(
+                          fontSize: Dimensions.fontSizeSmall,
+                          color: Colors.blue)),
                 ]),
-
-                Text(PriceConverter.convertPrice(expense.amount), textDirection: TextDirection.ltr, style: robotoBold.copyWith(fontSize: 17)),
-
+                Text(PriceConverter.convertPrice(expense.amount),
+                    textDirection: TextDirection.ltr,
+                    style: robotoBold.copyWith(fontSize: 17)),
               ]),
             ],
           ),

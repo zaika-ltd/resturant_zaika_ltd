@@ -677,7 +677,8 @@ class _RestaurantRegistrationScreenState
                                                       width: 1,
                                                       color: Theme.of(context)
                                                           .disabledColor
-                                                          .withOpacity(0.5)),
+                                                          .withValues(
+                                                              alpha: 0.5)),
                                                 ),
                                                 focusedBorder:
                                                     OutlineInputBorder(
@@ -690,7 +691,8 @@ class _RestaurantRegistrationScreenState
                                                       width: 1,
                                                       color: Theme.of(context)
                                                           .disabledColor
-                                                          .withOpacity(0.5)),
+                                                          .withValues(
+                                                              alpha: 0.5)),
                                                 ),
                                                 border: OutlineInputBorder(
                                                   borderRadius:
@@ -702,7 +704,8 @@ class _RestaurantRegistrationScreenState
                                                       width: 1,
                                                       color: Theme.of(context)
                                                           .disabledColor
-                                                          .withOpacity(0.5)),
+                                                          .withValues(
+                                                              alpha: 0.5)),
                                                 ),
                                               ),
                                             ),
@@ -839,7 +842,7 @@ class _RestaurantRegistrationScreenState
                                           border: Border.all(
                                               color: Theme.of(context)
                                                   .disabledColor
-                                                  .withOpacity(0.5),
+                                                  .withValues(alpha: 0.5),
                                               width: 1),
                                         ),
                                         padding: const EdgeInsets.symmetric(
@@ -1101,8 +1104,9 @@ class _RestaurantRegistrationScreenState
                                                                 .textTheme
                                                                 .bodyLarge
                                                                 ?.color
-                                                                ?.withOpacity(
-                                                                    0.7)),
+                                                                ?.withValues(
+                                                                    alpha:
+                                                                        0.7)),
                                                     textAlign:
                                                         TextAlign.justify,
                                                     textScaler:
@@ -1133,8 +1137,9 @@ class _RestaurantRegistrationScreenState
                                                                   .textTheme
                                                                   .bodyLarge
                                                                   ?.color
-                                                                  ?.withOpacity(
-                                                                      0.7)),
+                                                                  ?.withValues(
+                                                                      alpha:
+                                                                          0.7)),
                                                           textAlign:
                                                               TextAlign.justify,
                                                           textScaler:
@@ -1633,7 +1638,7 @@ class _RestaurantRegistrationScreenState
   Future<void> _showBottomBarCamera(
       BuildContext context, bool isLogo, AuthController authController) async {
     showModalBottomSheet(
-        barrierColor: Colors.grey.withOpacity(0.5),
+        barrierColor: Colors.grey.withValues(alpha: 0.5),
         backgroundColor: Colors.transparent,
         context: context,
         builder: (context) => SafeArea(
@@ -1648,7 +1653,7 @@ class _RestaurantRegistrationScreenState
                               .textTheme
                               .bodyLarge
                               ?.color
-                              ?.withOpacity(0.7))),
+                              ?.withValues(alpha: 0.7))),
                   tileColor: Theme.of(context).cardColor,
                   onTap: () {
                     Get.back();
@@ -1665,7 +1670,7 @@ class _RestaurantRegistrationScreenState
                                 .textTheme
                                 .bodyLarge
                                 ?.color
-                                ?.withOpacity(0.7))),
+                                ?.withValues(alpha: 0.7))),
                     tileColor: Theme.of(context).cardColor,
                     onTap: () {
                       Get.back();
