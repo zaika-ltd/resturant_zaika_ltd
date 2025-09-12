@@ -5,6 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:stackfood_multivendor_restaurant/common/models/error_response.dart';
+import 'package:stackfood_multivendor_restaurant/features/auth/controllers/auth_controller.dart';
+import 'package:stackfood_multivendor_restaurant/helper/route_helper.dart';
 import 'package:stackfood_multivendor_restaurant/util/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -207,6 +209,11 @@ class ApiClient extends GetxService {
         '====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
     if (handleError) {
       if (response0.statusCode == 200) {
+        return response0;
+      } else if (response0.statusCode == 401) {
+        debugPrint('handling api error API Client file');
+        Get.find<AuthController>().clearSharedData();
+        Get.offAllNamed(RouteHelper.getSignInRoute());
         return response0;
       } else {
         ApiChecker.checkApi(response0);

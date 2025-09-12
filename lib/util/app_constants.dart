@@ -3,11 +3,11 @@ import 'package:stackfood_multivendor_restaurant/util/images.dart';
 
 class AppConstants {
   static const String appName = 'Zaika Restaurant';
-  static const double appVersion = 8.0;
+  static const double appVersion = 15.0;
 
   ///Flutter SDK 3.27.1
 
-  static const String baseUrl = 'https://staging.zaika.ltd';
+  static const String baseUrl = 'https://zaika.ltd';
   static const String configUri = '/api/v1/config';
   static const String loginUri = '/api/v1/auth/vendor/login';
   static const String forgetPasswordUri = '/api/v1/auth/vendor/forgot-password';

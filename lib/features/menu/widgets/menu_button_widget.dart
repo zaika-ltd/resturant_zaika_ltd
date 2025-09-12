@@ -19,46 +19,61 @@ class MenuButtonWidget extends StatelessWidget {
   final MenuModel menu;
   final bool isProfile;
   final bool isLogout;
-  const MenuButtonWidget({super.key, required this.menu, required this.isProfile, required this.isLogout});
+  const MenuButtonWidget(
+      {super.key,
+      required this.menu,
+      required this.isProfile,
+      required this.isLogout});
 
   @override
   Widget build(BuildContext context) {
-
-    double size = (context.width/4)-Dimensions.paddingSizeDefault;
+    double size = (context.width / 4) - Dimensions.paddingSizeDefault;
 
     return InkWell(
       onTap: () async {
-        if(menu.isBlocked) {
+        if (menu.isBlocked) {
           showCustomSnackBar('this_feature_is_blocked_by_admin'.tr);
-        }else if(menu.isNotSubscribe){
+        } else if (menu.isNotSubscribe) {
           showCustomSnackBar('you_have_no_available_subscription'.tr);
-        } else if(menu.isLanguage){
+        } else if (menu.isLanguage) {
           Get.back();
           _manageLanguageFunctionality();
-        }else {
+        } else {
           if (isLogout) {
+            debugPrint('yes pressed');
             Get.back();
             if (Get.find<AuthController>().isLoggedIn()) {
-              Get.dialog(ConfirmationDialogWidget(icon: Images.support, description: 'are_you_sure_to_logout'.tr, isLogOut: true, onYesPressed: () async {
-                Get.find<AuthController>().clearSharedData();
-                await Get.find<ProfileController>().trialWidgetShow(route: RouteHelper.payment);
-                Get.offAllNamed(RouteHelper.getSignInRoute());
-              }), useSafeArea: false);
+              Get.dialog(
+                  ConfirmationDialogWidget(
+                      icon: Images.support,
+                      description: 'are_you_sure_to_logout'.tr,
+                      isLogOut: true,
+                      onYesPressed: () async {
+                        Get.find<AuthController>().clearSharedData();
+                        await Get.find<ProfileController>()
+                            .trialWidgetShow(route: RouteHelper.payment);
+                        Get.offAllNamed(RouteHelper.getSignInRoute());
+                      }),
+                  useSafeArea: false);
             } else {
-              await Get.find<ProfileController>().trialWidgetShow(route: RouteHelper.payment);
+              await Get.find<ProfileController>()
+                  .trialWidgetShow(route: RouteHelper.payment);
               Get.find<AuthController>().clearSharedData();
               Get.toNamed(RouteHelper.getSignInRoute());
             }
           } else {
-            if(menu.route.contains(RouteHelper.mySubscription)) {
+            if (menu.route.contains(RouteHelper.mySubscription)) {
               Get.offNamed(menu.route);
             } else {
               if (!Get.find<SubscriptionController>().isTrialEndModalShown) {
-                Get.find<SubscriptionController>().trialEndBottomSheet().then((trialEnd) {
-                  if(trialEnd) {
+                Get.find<SubscriptionController>()
+                    .trialEndBottomSheet()
+                    .then((trialEnd) {
+                  if (trialEnd) {
                     Get.offNamed(menu.route);
-                  }else {
-                    Get.find<SubscriptionController>().setTrialEndModalShown(true);
+                  } else {
+                    Get.find<SubscriptionController>()
+                        .setTrialEndModalShown(true);
                   }
                 });
               }
@@ -67,23 +82,36 @@ class MenuButtonWidget extends StatelessWidget {
         }
       },
       child: Column(children: [
-
         Container(
           height: size - (size * 0.2),
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-          margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+          margin: const EdgeInsets.symmetric(
+              horizontal: Dimensions.paddingSizeSmall),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-            color: isLogout ? Get.find<AuthController>().isLoggedIn() ? Theme.of(context).colorScheme.error : Colors.green : Theme.of(context).primaryColor,
-            boxShadow: const [BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 5)],
+            color: isLogout
+                ? Get.find<AuthController>().isLoggedIn()
+                    ? Theme.of(context).colorScheme.error
+                    : Colors.green
+                : Theme.of(context).primaryColor,
+            boxShadow: const [
+              BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 5)
+            ],
           ),
           alignment: Alignment.center,
-          child: isProfile ? ProfileImageWidget(size: size) : CustomAssetImageWidget(image: menu.icon, width: size, height: size, color: menu.iconColor, fit: BoxFit.contain),
+          child: isProfile
+              ? ProfileImageWidget(size: size)
+              : CustomAssetImageWidget(
+                  image: menu.icon,
+                  width: size,
+                  height: size,
+                  color: menu.iconColor,
+                  fit: BoxFit.contain),
         ),
         const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-
-        Text(menu.title, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
-
+        Text(menu.title,
+            style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+            textAlign: TextAlign.center),
       ]),
     );
   }
@@ -93,18 +121,23 @@ class MenuButtonWidget extends StatelessWidget {
     Get.find<LocalizationController>().searchSelectedLanguage();
 
     showModalBottomSheet(
-      isScrollControlled: true, useRootNavigator: true, context: Get.context!,
+      isScrollControlled: true,
+      useRootNavigator: true,
+      context: Get.context!,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusExtraLarge), topRight: Radius.circular(Dimensions.radiusExtraLarge)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(Dimensions.radiusExtraLarge),
+            topRight: Radius.circular(Dimensions.radiusExtraLarge)),
       ),
       builder: (context) {
         return ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
+          constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.8),
           child: const LanguageBottomSheetWidget(),
         );
       },
-    ).then((value) => Get.find<LocalizationController>().setLanguage(Get.find<LocalizationController>().getCacheLocaleFromSharedPref()));
+    ).then((value) => Get.find<LocalizationController>().setLanguage(
+        Get.find<LocalizationController>().getCacheLocaleFromSharedPref()));
   }
-
 }
