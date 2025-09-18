@@ -34,7 +34,7 @@
     </queries>
  //    android:requestLegacyExternalStorage="true"
     <application
-        android:label="Zaika Restaurant"
+        android:label="@string/app_name" 
         android:name="${applicationName}"
         android:extractNativeLibs="true"
    

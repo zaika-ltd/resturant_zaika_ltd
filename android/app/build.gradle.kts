@@ -30,6 +30,18 @@ android {
     namespace = "com.zaika.restaurant"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
+     flavorDimensions.add("default")
+    productFlavors {
+        create("staging") {
+            dimension = "default"
+            applicationIdSuffix = ".staging"
+            resValue("string", "app_name", "Zaika Restaurant Staging")
+        }
+        create("production") {
+            dimension = "default"
+            resValue("string", "app_name", "Zaika Restaurant")
+        }
+    }
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true

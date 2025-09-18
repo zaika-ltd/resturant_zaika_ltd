@@ -46,7 +46,7 @@ class ApiClient extends GetxService {
       Map<String, String>? headers,
       bool handleError = true}) async {
     try {
-      debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
+      debugPrint('====> API Call:$appBaseUrl+$uri\nHeader: $_mainHeaders');
       http.Response response = await http
           .get(
             Uri.parse(appBaseUrl + uri),
