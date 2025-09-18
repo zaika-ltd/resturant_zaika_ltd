@@ -11,6 +11,7 @@ import 'package:stackfood_multivendor_restaurant/helper/responsive_helper.dart';
 import 'package:stackfood_multivendor_restaurant/maindart';
 import 'package:stackfood_multivendor_restaurant/util/app_constants.dart';
 import 'package:url_strategy/url_strategy.dart';
+import 'features/config/app_config.dart';
 import 'helper/get_di.dart' as di;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -20,12 +21,13 @@ Future<void> main() async {
   if (ResponsiveHelper.isMobilePhone()) {
     HttpOverrides.global = MyHttpOverrides();
   }
+  AppConfig.init(Environment.PRODUCTION);
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
 
   // Production Base URL
-  AppConstants.baseUrl =
-      'https://zaika.ltd'; // Yahan apna production URL daalein
+  // AppConstants.baseUrl =
+  //     'https://zaika.ltd'; // Yahan apna production URL daalein
 
   if (GetPlatform.isAndroid) {
     await Firebase.initializeApp(

@@ -1,3 +1,4 @@
+import 'package:stackfood_multivendor_restaurant/features/config/app_config.dart';
 import 'package:stackfood_multivendor_restaurant/features/language/domain/models/language_model.dart';
 import 'package:stackfood_multivendor_restaurant/util/images.dart';
 
@@ -7,7 +8,8 @@ class AppConstants {
 
   ///Flutter SDK 3.27.1
 
-  static String baseUrl = '';
+  // static String baseUrl = '';
+  static String get baseUrl => AppConfig.instance.baseUrl;
   static const String configUri = '/api/v1/config';
   static const String loginUri = '/api/v1/auth/vendor/login';
   static const String forgetPasswordUri = '/api/v1/auth/vendor/forgot-password';
