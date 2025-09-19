@@ -37,7 +37,7 @@ Future<void> main() async {
       options: const FirebaseOptions(
         apiKey: 'AIzaSyAGJenQNd-KCVh4vaL4u8D0gRXfCQKYW2o',
         appId:
-            '1:533169250177:android:993c8e6840cf1ce25ed280', //'1:533169250177:android:cd27de6a7032cdea5ed280',
+            '1:533169250177:android:b63c2f4fe2b22d175ed280', //'1:533169250177:android:cd27de6a7032cdea5ed280',
         messagingSenderId: '533169250177',
         projectId: 'zaika-19c9b',
       ),
